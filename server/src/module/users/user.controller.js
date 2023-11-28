@@ -4,6 +4,7 @@ const {
   getUserFromDb,
   getUsersFromDb,
 } = require("./user.services");
+const bcrypt = require("bcryptjs");
 
 // ? Create User
 async function createUser(req, res) {
@@ -21,7 +22,7 @@ async function createUser(req, res) {
 }
 // ? Get All Users
 async function getUsers(req, res) {
-  const result =await getUsersFromDb();
+  const result = await getUsersFromDb();
   try {
     res.status(200).json({
       success: true,
@@ -46,4 +47,26 @@ async function getUser(req, res) {
   }
 }
 
-module.exports = { getUsers, createUser, getUser };
+async function userLogin(req, res) {
+  try {
+    const { email, password } = req.body;
+    console.log(email, password);
+    const data = await getUserFromDb(email);
+    console.log(data[0], "data");
+    if (!data) {
+      return res.status(401).json({ error: "No Data" });
+    }
+    const matchedPassword = await bcrypt.compare(password, data[0].password);
+    if (!matchedPassword) {
+      return res.status(401).json({ error: "Invalid Creadintials" });
+    }
+    res.status(200).json({
+      message: "Logged In",
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+module.exports = { getUsers, createUser, getUser, userLogin };

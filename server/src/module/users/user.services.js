@@ -9,8 +9,8 @@ async function createUserToDb(user) {
 // ? Get Signle User From Db
 
 async function getUserFromDb(email) {
-  console.log(email);
   const result = await User.find({ email: email });
+  console.log(result, "DB");
   return result;
 }
 
