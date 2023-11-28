@@ -1,10 +1,10 @@
-const chatModel = require("./chat.schema");
+const ChatModel = require("./chat.schema");
 const { getUserChatsFromDb } = require("./chat.services");
 
 // ? Create New Chat
 async function createChat(req, res) {
   //? Make New ChatModel Instance
-  const newChat = new chatModel({
+  const newChat = new ChatModel({
     members: [req.body.senderId, req.body.reciverId],
   });
   try {
@@ -33,7 +33,7 @@ async function getUserChats(req, res) {
 
 async function findChat(req, res) {
   try {
-    const chat = await chatModel.findOne({
+    const chat = await ChatModel.findOne({
       members: { $all: [req.params.firstId, req.params.secondId] },
     });
     res.status(200).json(chat);

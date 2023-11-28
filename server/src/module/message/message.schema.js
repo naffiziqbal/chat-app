@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const chatMessageSchema = mongoose.Schema(
+const ChatMessageSchema = mongoose.Schema(
   {
     chatId: {
       type: String,
@@ -17,6 +17,6 @@ const chatMessageSchema = mongoose.Schema(
   }
 );
 
-const messageModal = mongoose.model("Message", chatMessageSchema);
+const MessageModal = mongoose.model("Message", ChatMessageSchema);
 
-module.exports = messageModal;
+module.exports = MessageModal;
