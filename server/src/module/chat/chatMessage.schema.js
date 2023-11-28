@@ -13,7 +13,7 @@ const chatMessageSchema = mongoose.Schema(
     },
   },
   {
-    timeStamps: true,
+    timestamps: true,
   }
 );
 
