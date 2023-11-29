@@ -1,9 +1,13 @@
-import React from 'react';
+import Chatbox from "../../Components/ChatBox/Chatbox";
+import Conversation from "../../Components/ConverSation/Conversation";
 
 const Home = () => {
     return (
-        <div>
-            This Is Home
+        <div className="py-3">
+            <main className="flex flex-row justify-between">
+                <Conversation />
+                <Chatbox />
+            </main>
         </div>
     );
 };
