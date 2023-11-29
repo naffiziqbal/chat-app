@@ -4,7 +4,7 @@ import Conversation from "../../Components/ConverSation/Conversation";
 const Home = () => {
     return (
         <div className="py-3">
-            <main className="flex flex-row justify-between">
+            <main className="flex flex-row justify-between overflow-hidden">
                 <Conversation />
                 <Chatbox />
             </main>
