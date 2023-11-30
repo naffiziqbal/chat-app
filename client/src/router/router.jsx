@@ -3,7 +3,6 @@ import App from '../App';
 import Signup from '../pages/signup/Signup';
 import Login from '../pages/login/Login';
 import Home from '../pages/home/Home';
-import Chatbox from '../Components/ChatBox/Chatbox';
 
 const router = createBrowserRouter([
     {

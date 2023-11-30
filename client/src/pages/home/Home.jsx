@@ -3,7 +3,7 @@ import Conversation from "../../Components/ConverSation/Conversation";
 
 const Home = () => {
     return (
-        <div className="py-3 overflow-hidden">
+        <div className="overflow-hidden">
             <main className="flex flex-row justify-between ">
                 <Conversation />
                 <Chatbox />
