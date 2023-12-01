@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { HiOutlineDotsVertical } from "react-icons/hi";
+import { HiArrowCircleRight, HiEmojiHappy, HiOutlineDotsVertical } from "react-icons/hi";
 import { useParams } from "react-router-dom";
-import { IoIosArrowDropleft } from "react-icons/io";
 import { LuSticker } from "react-icons/lu";
 import { AiOutlineGif } from "react-icons/ai";
 import { FaImage } from "react-icons/fa6";
+import { IoSend } from "react-icons/io5";
 
 
 
@@ -71,16 +71,19 @@ const Chatbox = () => {
                             </ul>
                         </main>
                     </div>
+
+
                     <footer className="">
-                        <form className="flex flex-row absolute bottom-3 right-0 w-full items-center justify-between">
-                            <span className=" mx-1 border  cursor-pointer "
+                        <form className=" bg-slate-200 flex flex-row absolute bottom-3 right-0 w-full items-center justify-between">
+                            <span className=" mx-1 border cursor-pointer "
                                 onClick={() => setIsTyping(!isTyping)}
                             >
                                 {
-                                    <IoIosArrowDropleft
+                                    <HiArrowCircleRight
                                         style={{
-                                            width: '2rem',
-                                            height: "2rem",
+                                            width: '1.2rem',
+                                            height: "1.2rem",
+                                            // backgroundColor: "rgb(59 130 246)",
                                             rotate: isTyping ? "180deg" : '0deg',
                                             transition: ".3s ease"
                                         }}
@@ -90,22 +93,31 @@ const Chatbox = () => {
                             </span>
 
 
-                            <div className={`flex justify-between ${isTyping ? "w-0" : "w-1/6"} duration-300 `}>
+                            <div className={`flex justify-around ${isTyping ? "w-0" : "w-1/4"} duration-300 `}>
                                 <LuSticker />
                                 <AiOutlineGif />
                                 <FaImage />
                             </div>
-                            <textarea
-                                className="w-96 max-h-24 outline-none duration-300 rounded-3xl px-4"
-                                style={{ width: isTyping ? '100%' : '60%', resize: 'none', overflow: 'hidden' }}
-                                value={inputValue}
-                                onChange={handleInputChange}
-                                onKeyDown={handleEnter}
-                                placeholder="Type here..."
-                            ></textarea>
-                            <button type="submist"
+
+                            <div className="w-full flex  items-center justify-end">
+                                <input
+                                    className="max-h-24 outline-none duration-300 rounded-3xl items-center justify-center py-3 px-5"
+                                    style={{ width: isTyping ? '95%' : '50%', resize: 'none', overflow: 'hidden' }}
+                                    value={inputValue}
+                                    onChange={handleInputChange}
+                                    onKeyDown={handleEnter}
+                                    placeholder="Aa"
+                                ></input>
+                                <span className="">{<HiEmojiHappy style={{
+                                    height: "1.2rem",
+                                    width: '1.2rem',
+                                    margin: '0 1rem'
+                                }} />}</span>
+                            </div>
+
+                            <button type="submit"
                                 className="bg-blue-500 text-white p-2 rounded max-h-10 items-center mx-3"
-                            >Send</button>
+                            >{<IoSend />}</button>
                         </form>
                     </footer>
                 </>
