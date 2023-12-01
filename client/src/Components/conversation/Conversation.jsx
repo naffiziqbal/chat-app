@@ -13,18 +13,20 @@ const Conversation = () => {
 
 
     return (
-        <div className={`lg:w-1/3 w-1/4 h-screen shadow-xl py-5`}>
-            <header className="shadow-sm">
+        <div className={`lg:w-1/3 w-1/4 h-screen shadow-xl`}>
+            <div className="w-full">
+                
+            </div>
+            <header className="">
                 <div className="flex flex-row flex-nowrap justify-between items-center p-4">
                     <span className="flex flex-row items-center justify-between">
                         <figure>
                             <img src={avatar} alt="" />
                         </figure>
-                        <p className="text-start mx-3 md:block hidden">User Name</p>
+                        <p className="text-start mx-3 lg:block hidden">User Name</p>
                     </span>
-                    <span className="md:block hidden">
-
-                        <IoMdAddCircleOutline />
+                    <span className="font-bold text-3xl p-2">
+                        Chats
                     </span>
                 </div>
             </header>

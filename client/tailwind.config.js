@@ -3,9 +3,13 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {},
-  },
-  plugins: [require("daisyui")],
-  daisyui: {
-    themes: ["light", "dark", "cupcake"],
+    colors: {
+      text: "#000000",
+      base: "#ffffff",
+      background: "#f2f7f4",
+      primary: "#5c9976",
+      secondary: "#cfe2d7",
+      accent: "#568f6f",
+    },
   },
 };

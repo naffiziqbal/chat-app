@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { HiArrowCircleRight, HiEmojiHappy, HiOutlineDotsVertical } from "react-icons/hi";
+import { HiArrowCircleRight, HiEmojiHappy, HiOutlineDotsVertical, HiPhone, HiVideoCamera } from "react-icons/hi";
 import { useParams } from "react-router-dom";
 import { LuSticker } from "react-icons/lu";
 import { AiOutlineGif } from "react-icons/ai";
@@ -47,10 +47,10 @@ const Chatbox = () => {
         setIsTyping(inputText.length > 0);
     };
     return (
-        <div className={`lg:w-2/3 w-full py-5 relative`}>
+        <div className={`lg:w-2/3 w-full relative`}>
             {
                 singleUser && <>
-                    <header className="shadow-sm" >
+                    <header className="shadow-inner bg-primary text-text font-bold tracking-wide" >
                         <div className="flex flex-row flex-nowrap justify-between items-center p-4">
                             <span className="flex flex-row items-center justify-between">
                                 <figure>
@@ -58,7 +58,12 @@ const Chatbox = () => {
                                 </figure>
                                 <p className="text-start mx-3">{singleUser?.name}</p>
                             </span>
-                            <HiOutlineDotsVertical style={{ cursor: "pointer" }} />
+                            <div className="flex flex-row justify-between  w-2/12">
+                                <HiVideoCamera />
+                                <HiPhone />
+                                <HiOutlineDotsVertical style={{ cursor: "pointer" }} />
+
+                            </div>
                         </div>
                     </header>
                     <div>
