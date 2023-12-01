@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import { HiOutlineDotsVertical } from "react-icons/hi";
+import { HiArrowCircleRight, HiOutlineDotsVertical } from "react-icons/hi";
 import { useParams } from "react-router-dom";
+import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
+
 
 const Chatbox = () => {
     const { id } = useParams()
     const [user, setUser] = useState([])
     const [inputValue, setInputValue] = useState('');
+    const [isTyping, setIsTyping] = useState(false);
+
     useEffect(() => {
         fetch(`/chat.json`)
             .then(res => res.json())
@@ -14,12 +18,12 @@ const Chatbox = () => {
     const singleUser = user.find(data => data?.id === id)
 
 
-    const autoExpand = (event) => {
-        const textarea = event.target;
-        textarea.style.height = 'auto';
-        textarea.style.height = `${textarea.scrollHeight}px`;
-        setInputValue(textarea.value);
-    };
+    // const autoExpand = (event) => {
+    //     const textarea = event.target;
+    //     textarea.style.height = 'auto';
+    //     textarea.style.height = `${textarea.scrollHeight}px`;
+    //     setInputValue(textarea.value);
+    // };
 
     const handleEnter = (event) => {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -27,6 +31,16 @@ const Chatbox = () => {
             // Add your custom logic here, for example, adding a new line break or submitting the form.
             alert('Enter key pressed without Shift!');
         }
+    };
+    const handleInputChange = (e) => {
+        // const textarea = e.target;
+        // textarea.style.height = 'auto';
+        // textarea.style.height = `${textarea.scrollHeight}px`;
+        // setInputValue(textarea.value);
+        const inputText = e.target.value;
+        setInputValue(inputText);
+        // Check if the user is typing
+        setIsTyping(inputText.length > 0);
     };
     return (
         <div className={`lg:w-2/3 w-full py-5 relative`}>
@@ -43,7 +57,7 @@ const Chatbox = () => {
                             <HiOutlineDotsVertical style={{ cursor: "pointer" }} />
                         </div>
                     </header>
-                    <body>
+                    <div>
                         <main className="mt-4 overflow-y-auto h-100% max-h-96">
                             <ul className="mb-4">
                                 <li className="text-gray-600">User 1: Hello</li>
@@ -52,31 +66,42 @@ const Chatbox = () => {
                                 <li className="text-gray-600">User 2: I&apos;m doing well, thanks for asking</li>
                             </ul>
                         </main>
-                    </body>
+                    </div>
                     <footer className="mb-12">
-                        <form className="flex absolute bottom-3 right-0 w-full items-center justify-between">
-                            {/* <input
-                                type="text"
-                                className="flex-grow p-2 border rounded outline-none overflow-auto with"
-                                onChange={handleInputChange}
-                                value={text}
-                                height={inputHeight}
-                                placeholder="Enter your text here"
-                            /> */}
-                            <div className="p-2 bg-red-300">a</div>
-                            <div className="p-2 bg-red-300">a</div>
-                            <div className="p-2 bg-red-300">a</div>
-                            <div className="p-2 bg-red-300">a</div>
+                        <form className="flex flex-row absolute bottom-3 right-0 w-full items-center justify-between px-3">
+                            <span className=" mx-4 border  cursor-pointer "
+                                onClick={() => setIsTyping(!isTyping)}
+                            >
+                                {
+                                    <IoIosArrowDropleft
+                                        style={{
+                                            width: '2rem',
+                                            height: "2rem",
+                                            rotate: isTyping ? "180deg" : '0deg',
+                                            transition: ".3s ease"
+                                        }}
+                                    />
+                                }
+
+                            </span>
+
+
+                            <div className={`flex justify-between ${isTyping ? "w-0" : "w-1/3"} duration-300 `}>
+                                <div className="p-2 bg-red-300">a</div>
+                                <div className="p-2 bg-red-300">a</div>
+                                <div className="p-2 bg-red-300">a</div>
+                                <div className="p-2 bg-red-300">a</div>
+                            </div>
                             <textarea
-                                className="w-96 max-h-16 outline-none"
+                                className="w-96 max-h-16 outline-none duration-300"
+                                style={{ width: isTyping ? '100%' : '40%', resize: 'none', overflow: 'hidden' }}
                                 value={inputValue}
-                                onChange={autoExpand}
+                                onChange={handleInputChange}
                                 onKeyDown={handleEnter}
                                 placeholder="Type here..."
-                                style={{ resize: 'none', overflow: 'hidden' }}
                             ></textarea>
                             <button type="submist"
-                                className="bg-blue-500 text-white p-2 rounded max-h-10 items-center"
+                                className="bg-blue-500 text-white p-2 rounded max-h-10 items-center mx-3"
                             >Send</button>
                         </form>
                     </footer>
