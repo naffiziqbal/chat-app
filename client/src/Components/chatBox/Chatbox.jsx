@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { HiArrowCircleRight, HiOutlineDotsVertical } from "react-icons/hi";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useParams } from "react-router-dom";
-import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
+import { IoIosArrowDropleft } from "react-icons/io";
+import { LuSticker } from "react-icons/lu";
+import { AiOutlineGif } from "react-icons/ai";
+import { FaImage } from "react-icons/fa6";
+
 
 
 const Chatbox = () => {
@@ -33,10 +37,10 @@ const Chatbox = () => {
         }
     };
     const handleInputChange = (e) => {
-        // const textarea = e.target;
-        // textarea.style.height = 'auto';
-        // textarea.style.height = `${textarea.scrollHeight}px`;
-        // setInputValue(textarea.value);
+        const textarea = e.target;
+        textarea.style.height = 'auto';
+        textarea.style.height = `${textarea.scrollHeight}px`;
+        setInputValue(textarea.value);
         const inputText = e.target.value;
         setInputValue(inputText);
         // Check if the user is typing
@@ -67,9 +71,9 @@ const Chatbox = () => {
                             </ul>
                         </main>
                     </div>
-                    <footer className="mb-12">
-                        <form className="flex flex-row absolute bottom-3 right-0 w-full items-center justify-between px-3">
-                            <span className=" mx-4 border  cursor-pointer "
+                    <footer className="">
+                        <form className="flex flex-row absolute bottom-3 right-0 w-full items-center justify-between">
+                            <span className=" mx-1 border  cursor-pointer "
                                 onClick={() => setIsTyping(!isTyping)}
                             >
                                 {
@@ -86,15 +90,14 @@ const Chatbox = () => {
                             </span>
 
 
-                            <div className={`flex justify-between ${isTyping ? "w-0" : "w-1/3"} duration-300 `}>
-                                <div className="p-2 bg-red-300">a</div>
-                                <div className="p-2 bg-red-300">a</div>
-                                <div className="p-2 bg-red-300">a</div>
-                                <div className="p-2 bg-red-300">a</div>
+                            <div className={`flex justify-between ${isTyping ? "w-0" : "w-1/6"} duration-300 `}>
+                                <LuSticker />
+                                <AiOutlineGif />
+                                <FaImage />
                             </div>
                             <textarea
-                                className="w-96 max-h-16 outline-none duration-300"
-                                style={{ width: isTyping ? '100%' : '40%', resize: 'none', overflow: 'hidden' }}
+                                className="w-96 max-h-24 outline-none duration-300 rounded-3xl px-4"
+                                style={{ width: isTyping ? '100%' : '60%', resize: 'none', overflow: 'hidden' }}
                                 value={inputValue}
                                 onChange={handleInputChange}
                                 onKeyDown={handleEnter}
