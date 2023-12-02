@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { HiArrowCircleRight, HiEmojiHappy, HiOutlineDotsVertical, HiPhone, HiVideoCamera } from "react-icons/hi";
+import { HiEmojiHappy, HiOutlineDotsVertical, HiPhone, HiVideoCamera } from "react-icons/hi";
 import { useParams } from "react-router-dom";
 import { LuSticker } from "react-icons/lu";
 import { AiOutlineGif } from "react-icons/ai";
-import { FaImage } from "react-icons/fa6";
+import { FaArrowLeft, FaImage } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 
 
@@ -19,15 +19,8 @@ const Chatbox = () => {
             .then(res => res.json())
             .then(data => setUser(data))
     }, [])
+
     const singleUser = user.find(data => data?.id === id)
-
-
-    // const autoExpand = (event) => {
-    //     const textarea = event.target;
-    //     textarea.style.height = 'auto';
-    //     textarea.style.height = `${textarea.scrollHeight}px`;
-    //     setInputValue(textarea.value);
-    // };
 
     const handleEnter = (event) => {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -50,7 +43,7 @@ const Chatbox = () => {
         <div className={`lg:w-2/3 w-full relative`}>
             {
                 singleUser && <>
-                    <header className="shadow-inner bg-primary text-text font-bold tracking-wide" >
+                    <header className="shadow-inner bg-secondary text-text font-bold tracking-wide" >
                         <div className="flex flex-row flex-nowrap justify-between items-center p-4">
                             <span className="flex flex-row items-center justify-between">
                                 <figure>
@@ -76,19 +69,17 @@ const Chatbox = () => {
                             </ul>
                         </main>
                     </div>
-
-
+                    {/*  Form  */}
                     <footer className="">
                         <form className=" bg-slate-200 flex flex-row absolute bottom-3 right-0 w-full items-center justify-between">
-                            <span className=" mx-1 border cursor-pointer "
+                            <span className=" mx-1 cursor-pointer "
                                 onClick={() => setIsTyping(!isTyping)}
                             >
                                 {
-                                    <HiArrowCircleRight
+                                    <FaArrowLeft
                                         style={{
                                             width: '1.2rem',
                                             height: "1.2rem",
-                                            // backgroundColor: "rgb(59 130 246)",
                                             rotate: isTyping ? "180deg" : '0deg',
                                             transition: ".3s ease"
                                         }}

@@ -1,0 +1,12 @@
+.form_control {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.form_control input {
+  outline: none;
+  padding: 5px;
+  background: none;
+  border-bottom: 1px solid #5c9976;
+}

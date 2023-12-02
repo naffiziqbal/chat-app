@@ -1,4 +1,3 @@
-import { IoMdAddCircleOutline } from "react-icons/io";
 import avatar from "../../assets/icons8-male-user-50.png";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
