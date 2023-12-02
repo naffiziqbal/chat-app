@@ -1,6 +1,6 @@
 import avatar from "../../assets/icons8-male-user-50.png";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
 const Conversation = () => {
     const [recipent, setRecipent] = useState([]);
 
@@ -14,7 +14,7 @@ const Conversation = () => {
     return (
         <div className={`lg:w-1/3 w-1/4 h-screen shadow-xl`}>
             <div className="w-full">
-                
+
             </div>
             <header className="">
                 <div className="flex flex-row flex-nowrap justify-between items-center p-4">
@@ -34,14 +34,14 @@ const Conversation = () => {
 
                 <ul key={data?.id}>
                     <li>
-                        <Link to={`/chat/${data?.id}`}>
+                        <NavLink className={({ isActive }) => isActive ? " text-primary " : undefined} to={`/chat/${data?.id}`}>
                             <div className="flex items-center justify-start px-4 py-2">
                                 <figure>
                                     <img src={data?.img} alt="" />
                                 </figure>
                                 <p className="mx-4 font-semibold md:block hidden">{data?.name}</p>
                             </div>
-                        </Link>
+                        </NavLink>
                     </li>
                     <hr style={{ width: "80%", margin: "1rem auto", color: "#eee", }} />
                 </ul>

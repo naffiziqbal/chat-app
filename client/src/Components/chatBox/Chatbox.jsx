@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { HiEmojiHappy, HiOutlineDotsVertical, HiPhone, HiVideoCamera } from "react-icons/hi";
 import { useParams } from "react-router-dom";
-import { LuSticker } from "react-icons/lu";
+import {  LuSticker } from "react-icons/lu";
 import { AiOutlineGif } from "react-icons/ai";
 import { FaArrowLeft, FaImage } from "react-icons/fa6";
-import { IoSend } from "react-icons/io5";
+import { IoSend} from "react-icons/io5";
 
 
 
@@ -117,6 +117,11 @@ const Chatbox = () => {
                         </form>
                     </footer>
                 </>
+            }
+            {
+                !singleUser && <div className="bg-secondary h-screen flex items-center justify-center">
+                    <p className="md:text-2xl ">Please Select a Chat to Get Started</p>
+                </div>
             }
         </div >
     );

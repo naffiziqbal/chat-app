@@ -10,7 +10,7 @@ const Login = () => {
     }
     return (
         <div className="min-h-screen relative bg-primary">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 h-auto bg-background shadow-2xl p-5 rounded-md">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:w-1/2 w-96 h-auto bg-background shadow-2xl p-5 rounded-md">
                 <h3 className='text-primary font-extrabold text-center text-3xl my-4'>Login </h3>
                 <hr className='w-1/2 text-accent mx-auto' />
                 <form onSubmit={handleFormSubmit} className="flex flex-col ">
