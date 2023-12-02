@@ -1,0 +1,13 @@
+.form_control {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin: 1rem 0;
+}
+
+.form_control input {
+  outline: none;
+  padding: 5px;
+  background: none;
+  border-bottom: 1px solid #5c9976;
+}
