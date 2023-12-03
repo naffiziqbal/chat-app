@@ -9,8 +9,13 @@ const bcrypt = require("bcryptjs");
 // ? Create User
 async function createUser(req, res) {
   const user = req.body;
-  const result = await createUserToDb(user);
   try {
+    const data = await getUserFromDb(user.email);
+    if (data) {
+      return res.status(403).json({ error: "User Already Exists" });
+    }
+    const result = await createUserToDb(user);
+
     res.status(200).json({
       success: true,
       message: "User Created Successfully",
@@ -50,13 +55,14 @@ async function getUser(req, res) {
 async function userLogin(req, res) {
   try {
     const { email, password } = req.body;
-    console.log(email, password);
+    console.log(email, password, "db");
     const data = await getUserFromDb(email);
-    console.log(data[0], "data");
+    console.log(data, "returned data");
     if (!data) {
+      console.log("No Data");
       return res.status(401).json({ error: "No Data" });
     }
-    const matchedPassword = await bcrypt.compare(password, data[0].password);
+    const matchedPassword = await bcrypt.compare(password, data.password);
     if (!matchedPassword) {
       return res.status(401).json({ error: "Invalid Creadintials" });
     }
