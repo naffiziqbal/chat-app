@@ -1,3 +1,4 @@
+import { APIs } from '../../utils/APIs';
 import './Signup.css'
 const Signup = () => {
     const handleSubmit = (e) => {
@@ -9,6 +10,9 @@ const Signup = () => {
 
         const user = { name, email, password }
         console.log(user)
+        const response = APIs.signUpUser(user)
+        response.then(data => console.log(data.data.data))
+        console.log(response)
     }
     return (
         <div className="min-h-screen relative bg-primary">

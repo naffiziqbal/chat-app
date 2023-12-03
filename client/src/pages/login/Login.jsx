@@ -1,3 +1,4 @@
+import { APIs } from '../../utils/APIs';
 import './Login.css'
 const Login = () => {
     const handleFormSubmit = (e) => {
@@ -7,6 +8,8 @@ const Login = () => {
         const password = form.password.value
         const user = { email, password }
         console.log(user)
+        const data = APIs.loginUser(user)
+        data.then(res => console.log(res))
     }
     return (
         <div className="min-h-screen relative bg-primary">
