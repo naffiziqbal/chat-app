@@ -9,7 +9,9 @@ const Login = () => {
         const user = { email, password }
         console.log(user)
         const data = APIs.loginUser(user)
-        data.then(res => console.log(res))
+        data.then(res => {
+            console.log(res)
+        })
     }
     return (
         <div className="min-h-screen relative bg-primary">

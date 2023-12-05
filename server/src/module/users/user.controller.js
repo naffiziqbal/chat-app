@@ -40,8 +40,9 @@ async function getUsers(req, res) {
 
 // ? Get Single User
 async function getUser(req, res) {
-  const { email } = req.body;
-  const result = await getUserFromDb(email);
+  const { id } = req.params;
+  console.log(id);
+  const result = await getUserFromDb(id);
   try {
     res.status(200).json({
       success: true,
