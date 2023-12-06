@@ -1,28 +1,17 @@
 import { useEffect, useState } from "react";
 import Chatbox from "../../Components/ChatBox/Chatbox";
-import Conversation from "../../Components/ConverSation/Conversation";
 import { APIs } from "../../utils/APIs";
 import avatar from "../../assets/icons8-male-user-50.png";
+import Conversation from "../../Components/conversation/Conversation";
 
 
 const Home = () => {
     const [chatMembers, setChatMembers] = useState([])
     const [loggedInUser, setLoggedInUser] = useState(null)
-    const [chat, setChat] = useState([])
 
     const currentUserid = '656566aad4fec0b3ce27c30d'
 
     useEffect(() => {
-        const getAllUsers = async () => {
-            try {
-                const { data } = await APIs.getAllUser()
-                console.log(data)
-            }
-            catch (error) {
-                console.log(error)
-            }
-        }
-        // getAllUsers()
         const getUser = async (currentUserid) => {
             const { data } = await APIs.getSingleUser(currentUserid)
             setLoggedInUser(data.data)
@@ -64,7 +53,7 @@ const Home = () => {
                         }
                     </div>
                 </div>
-                {/* <Chatbox /> */}
+                <Chatbox />
             </main>
         </div>
     );

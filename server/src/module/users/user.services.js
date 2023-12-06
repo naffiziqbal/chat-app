@@ -29,4 +29,17 @@ async function getUsersFromDb() {
   return result;
 }
 
-module.exports = { createUserToDb, getUserFromDb, getUsersFromDb };
+async function updateAll() {
+  try {
+    const result = await User.updateMany(
+      {},
+      { $set: { profileImage: "https://i.ibb.co/Rp68NXw/download-5.jpg" } }
+    );
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+module.exports = { createUserToDb, getUserFromDb, getUsersFromDb,updateAll
+ };
