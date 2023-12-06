@@ -7,6 +7,7 @@ import { FaArrowLeft, FaImage } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import InputEmoji from "react-input-emoji"
 import { APIs } from "../../utils/APIs";
+import { format } from "timeago.js";
 
 const Chatbox = ({ currentUserid }) => {
     console.log(currentUserid)
@@ -78,11 +79,18 @@ const Chatbox = ({ currentUserid }) => {
                 </header>
                 <div>
                     <main className="mt-4 overflow-y-auto h-100% max-h-96">
-                        <span className="w-full ">{
+                        <div className="w-full">{
                             messages.map(data => <div
-                                className={` my-2 max-w-sm h-12 rounded-lg flex items-center justify-end px-2  ${messages?.senderId === currentUserid ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
-                                key={data._id}>{data?.text}</div>)
-                        }</span>
+                                className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${messages?.senderId === currentUserid ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
+                                key={data._id}>
+                                <span>
+                                    {data?.text}
+                                </span>
+                                <span>
+                                    {format(data.createdAt)}
+                                </span>
+                            </div>)
+                        }</div>
                     </main>
                 </div>
 
