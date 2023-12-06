@@ -50,14 +50,13 @@ const signUpUser = async ({ name, email, password }) => {
 
 const createChat = () => {};
 
-
-
 const getUserAllChats = (id) => API.get(`/chat/${id}`);
 
 const userSingleChat = () => {};
 
 const addMessage = () => {};
-const getMessage = () => {};
+
+const getMessage = (id) => API.get(`/message/${id}`);
 
 export const APIs = {
   getAllUser,

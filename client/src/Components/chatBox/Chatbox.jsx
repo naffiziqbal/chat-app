@@ -8,28 +8,33 @@ import { IoSend } from "react-icons/io5";
 import InputEmoji from "react-input-emoji"
 import { APIs } from "../../utils/APIs";
 
-const Chatbox = () => {
+const Chatbox = ({ currentUserid }) => {
+    console.log(currentUserid)
     const { id } = useParams()
     const [user, setUser] = useState([])
     const [isTyping, setIsTyping] = useState(false);
     const [text, setText] = useState('')
+    const [messages, setMessages] = useState([])
 
+    //  ? Getting Users
     useEffect(() => {
         const getUser = async (id) => {
             const { data } = await APIs.getSingleUser(id)
             setUser(data?.data)
-            // console.log(user)
         }
         getUser(id)
     }, [id])
-    console.log(user)
 
-    // const singleUser = user.find(data => data?.id === id)
-
-    const handleOnChange = (e) => {
-        if (e.key === "Enter") {
-            console.log("13")
+    // ? Caling the Messages From the Database
+    useEffect(() => {
+        const getMessages = async (id) => {
+            const { data } = await APIs.getMessage(id)
+            setMessages(data)
         }
+        getMessages(id)
+    }, [id])
+    //  ? Handling Input field ** This Will Make the Input field Larger ** 
+    const handleOnChange = (e) => {
         if (e.length > 0) {
             setIsTyping(true)
         }
@@ -49,8 +54,9 @@ const Chatbox = () => {
 
     }
 
+    console.log(messages)
     return (
-        <div className={`lg:w-2/3 w-full relative h-screen`}>
+        <div className={` h-screen relative`}>
 
 
             {user && <>
@@ -72,12 +78,11 @@ const Chatbox = () => {
                 </header>
                 <div>
                     <main className="mt-4 overflow-y-auto h-100% max-h-96">
-                        <ul className="mb-4">
-                            <li className="text-gray-600">User 1: Hello</li>
-                            <li className="text-gray-600">User 2: Hi there</li>
-                            <li className="text-gray-600">User 1: How are you?</li>
-                            <li className="text-gray-600">User 2: I&apos;m doing well, thanks for asking</li>
-                        </ul>
+                        <span className="w-full ">{
+                            messages.map(data => <div
+                                className={` my-2 max-w-sm h-12 rounded-lg flex items-center justify-end px-2  ${messages?.senderId === currentUserid ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
+                                key={data._id}>{data?.text}</div>)
+                        }</span>
                     </main>
                 </div>
 

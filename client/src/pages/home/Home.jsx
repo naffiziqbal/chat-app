@@ -25,36 +25,38 @@ const Home = () => {
         getUserChats(currentUserid)
     }, [currentUserid])
 
-    // console.log(chatMembers)
+    console.log(chatMembers)
     // console.log(chat)
 
     return (
-        <div className="overflow-hidden h-screen">
-            <main className="flex flex-row justify-between ">
-                <div className="left_side md:w-1/3 w-full">
-                    <header className="">
-                        {/* Heading */}
-                        <div className="flex flex-row flex-nowrap justify-between items-center p-4">
-                            <span className="flex flex-row items-center justify-between">
-                                <figure>
-                                    <img src={avatar} alt="" />
-                                </figure>
-                                <p className="text-start mx-3 lg:block hidden">{loggedInUser?.name}</p>
-                            </span>
-                            <span className="font-bold text-3xl p-2">
-                                Chats
-                            </span>
-                        </div>
-                    </header>
-                    <hr />
-                    <div className="">
-                        {
-                            chatMembers.map(data => <Conversation data={data} key={data._id} currentUser={currentUserid} />)
-                        }
+        <div className="overflow-hidden h-screen flex">
+            {/* Left Side Viee */}
+            <div className="left_side md:w-1/3 w-full">
+                <header className="">
+                    {/* Heading */}
+                    <div className="flex flex-row flex-nowrap justify-between items-center p-4">
+                        <span className="flex flex-row items-center justify-between">
+                            <figure>
+                                <img src={avatar} alt="" />
+                            </figure>
+                            <p className="text-start mx-3 lg:block hidden">{loggedInUser?.name}</p>
+                        </span>
+                        <span className="font-bold text-3xl p-2">
+                            Chats
+                        </span>
                     </div>
+                </header>
+                <hr />
+                <div className="">
+                    {
+                        chatMembers.map(data => <Conversation data={data} key={data._id} currentUser={currentUserid} />)
+                    }
                 </div>
-                <Chatbox />
-            </main>
+            </div>
+            {/* Right Side */}
+            <div className="righ_side md:w-2/3 w-full">
+                <Chatbox currentUserid={currentUserid} />
+            </div>
         </div>
     );
 };
