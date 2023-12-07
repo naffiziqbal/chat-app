@@ -11,7 +11,7 @@ async function addMessage(req, res) {
     const result = await message.save();
     res.status(200).json(result);
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 }
 
@@ -22,7 +22,7 @@ async function getMessages(req, res) {
     const result = await MessageModal.find({ chatId });
     res.status(200).json(result);
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 }
 

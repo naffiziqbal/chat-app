@@ -8,11 +8,10 @@ import { FaChessKing } from "react-icons/fa6";
 const Conversation = ({ data, currentUser }) => {
     const [userData, setUserData] = useState(null)
 
-    // console.log(data)
+    // ? Get User
     useEffect(() => {
+        //? Find User
         const userId = data.members.find(id => id !== currentUser)
-        // console.log(userId)
-
         const getUserData = async (userId) => {
             const { data } = await APIs.getSingleUser(userId)
             setUserData(data?.data)
@@ -20,7 +19,10 @@ const Conversation = ({ data, currentUser }) => {
         getUserData(userId)
 
     }, [])
-    // console.log(userData)
+    // //console.log(userData)
+
+    // 
+
     return (
         <div className={``}>
 
@@ -38,7 +40,7 @@ const Conversation = ({ data, currentUser }) => {
                 </li>
                 <hr style={{ width: "80%", margin: "1rem auto", color: "#eee", }} />
             </ul>
-            
+
         </div >
     );
 };

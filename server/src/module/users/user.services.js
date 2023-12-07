@@ -13,13 +13,13 @@ async function createUserToDb(user) {
 // ? Get Signle User From Db
 
 async function getUserFromDb(id) {
-  console.log(id);
+  //console.log(id);
   try {
     const result = await User.findById(id);
-    console.log(result);
+    //console.log(result);
     return result;
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 }
 
@@ -37,9 +37,8 @@ async function updateAll() {
     );
     return result;
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 
-module.exports = { createUserToDb, getUserFromDb, getUsersFromDb,updateAll
- };
+module.exports = { createUserToDb, getUserFromDb, getUsersFromDb, updateAll };

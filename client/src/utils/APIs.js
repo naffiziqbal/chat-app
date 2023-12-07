@@ -13,18 +13,18 @@ const API = axios.create({ baseURL: localUrl });
 //     const response = await axios.get(`${localUrl}/user/all-users`);
 //     return response.data;
 //   } catch (err) {
-//     console.log(err);
+//     //console.log(err);
 //   }
 // };
 const getAllUser = () => API.get("/user/all-users");
 
 const getSingleUser = async (id) => {
-  console.log(id);
+  //console.log(id);
   try {
     const response = await axios.get(`${localUrl}/user/${id}`);
     return response;
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 const loginUser = async ({ email, password }) => {
@@ -33,10 +33,10 @@ const loginUser = async ({ email, password }) => {
       email,
       password,
     });
-    console.log(response, "APIs");
+    //console.log(response, "APIs");
     return response;
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 };
 const signUpUser = async ({ name, email, password }) => {

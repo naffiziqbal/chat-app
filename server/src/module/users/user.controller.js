@@ -22,7 +22,7 @@ async function createUser(req, res) {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 }
 // ? Get All Users
@@ -34,14 +34,14 @@ async function getUsers(req, res) {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 }
 
 // ? Get Single User
 async function getUser(req, res) {
   const { id } = req.params;
-  console.log(id);
+  //console.log(id);
   const result = await getUserFromDb(id);
   try {
     res.status(200).json({
@@ -49,18 +49,18 @@ async function getUser(req, res) {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 }
 
 async function userLogin(req, res) {
   try {
     const { email, password } = req.body;
-    console.log(email, password, "db");
+    //console.log(email, password, "db");
     const data = await getUserFromDb(email);
-    console.log(data, "returned data");
+    //console.log(data, "returned data");
     if (!data) {
-      console.log("No Data");
+      //console.log("No Data");
       return res.status(401).json({ error: "No Data" });
     }
     const matchedPassword = await bcrypt.compare(password, data.password);
@@ -72,7 +72,7 @@ async function userLogin(req, res) {
       data: data,
     });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 

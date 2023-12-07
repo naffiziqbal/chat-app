@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { HiOutlineDotsVertical, HiPhone, HiVideoCamera } from "react-icons/hi";
 import { useParams } from "react-router-dom";
 import { LuSticker } from "react-icons/lu";
@@ -8,14 +8,16 @@ import { IoSend } from "react-icons/io5";
 import InputEmoji from "react-input-emoji"
 import { APIs } from "../../utils/APIs";
 import { format } from "timeago.js";
+import { io } from "socket.io-client"
 
 const Chatbox = ({ currentUserid }) => {
-    console.log(currentUserid)
     const { id } = useParams()
+    const socket = useRef()
     const [user, setUser] = useState([])
     const [isTyping, setIsTyping] = useState(false);
     const [text, setText] = useState('')
     const [messages, setMessages] = useState([])
+    const [onlineUser, setOnlineUser] = useState([])
 
     //  ? Getting Users
     useEffect(() => {
@@ -34,6 +36,14 @@ const Chatbox = ({ currentUserid }) => {
         }
         getMessages(id)
     }, [id])
+    //? Connecting Socket To Server
+    useEffect(() => {
+        socket.current = io('ws://localhost:8080')
+        socket.current.emit('add-user', currentUserid)
+        socket.current.on('get-users', (user) => {
+            setOnlineUser(user)
+        })
+    }, [currentUserid])
     //  ? Handling Input field ** This Will Make the Input field Larger ** 
     const handleOnChange = (e) => {
         if (e.length > 0) {
@@ -55,7 +65,7 @@ const Chatbox = ({ currentUserid }) => {
 
     }
 
-    console.log(messages)
+    //console.log(onlineUser)
     return (
         <div className={` h-screen relative`}>
 

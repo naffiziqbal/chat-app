@@ -14,7 +14,7 @@ async function createChat(req, res) {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    //console.log(err);
   }
 }
 
@@ -27,7 +27,7 @@ async function getUserChats(req, res) {
       data: userChat,
     });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 
@@ -38,7 +38,7 @@ async function findChat(req, res) {
     });
     res.status(200).json(chat);
   } catch (error) {
-    console.log(error);
+    //console.log(error);
   }
 }
 module.exports = { createChat, getUserChats, findChat };

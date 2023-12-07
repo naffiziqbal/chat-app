@@ -7,7 +7,6 @@ const Login = () => {
         const email = form.email.value
         const password = form.password.value
         const user = { email, password }
-        console.log(user)
         const data = APIs.loginUser(user)
         data.then(res => {
             console.log(res)

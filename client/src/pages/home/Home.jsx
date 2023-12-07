@@ -25,8 +25,7 @@ const Home = () => {
         getUserChats(currentUserid)
     }, [currentUserid])
 
-    console.log(chatMembers)
-    // console.log(chat)
+    // //console.log(chat)
 
     return (
         <div className="overflow-hidden h-screen flex">

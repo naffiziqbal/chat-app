@@ -9,10 +9,8 @@ const Signup = () => {
         const password = form.password.value
 
         const user = { name, email, password }
-        console.log(user)
         const response = APIs.signUpUser(user)
         response.then(data => console.log(data.data.data))
-        console.log(response)
     }
     return (
         <div className="min-h-screen relative bg-primary">
