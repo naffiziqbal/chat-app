@@ -54,7 +54,7 @@ const Home = () => {
             </div>
             {/* Right Side */}
             <div className="righ_side md:w-2/3 w-full">
-                <Chatbox currentUserid={currentUserid} />
+                {/* <Chatbox currentUserid={currentUserid} /> */}
             </div>
         </div>
     );

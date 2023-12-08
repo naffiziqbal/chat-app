@@ -8,14 +8,20 @@ let activeChat = [];
 
 io.on("connection", (socket) => {
   // Add User to Socket
-  socket.on("add-user", (newUserId) => {
+  socket.on("add-users", (newUserId) => {
     if (!activeChat.some((user) => user.userId === newUserId)) {
       activeChat.push({
         userId: newUserId,
         socketId: socket.id,
       });
     }
-    //console.log(newUserId);
-    io.emit("get-users");
+    console.log(activeChat);
+    io.emit("get-users", activeChat);
+  });
+  socket.on("disconnect", () => {
+    activeChat = activeChat?.filter((user) => user.id !== socket.id);
+    console.log("User Disconnected", activeChat);
+    io.emit("get-users", activeChat);
   });
 });
+console.log(activeChat);

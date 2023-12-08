@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineDotsVertical, HiPhone, HiVideoCamera } from "react-icons/hi";
 import { useParams } from "react-router-dom";
@@ -10,14 +11,20 @@ import { APIs } from "../../utils/APIs";
 import { format } from "timeago.js";
 import { io } from "socket.io-client"
 
-const Chatbox = ({ currentUserid }) => {
+const Chatbox = () => {
     const { id } = useParams()
     const socket = useRef()
-    const [user, setUser] = useState([])
+    const [user, setUser] = useState([]) //? Getting chat user from database
     const [isTyping, setIsTyping] = useState(false);
-    const [text, setText] = useState('')
-    const [messages, setMessages] = useState([])
+    const [text, setText] = useState('') //? inputed message
+    const [messages, setMessages] = useState([]) //? Getting Messages from DB
     const [onlineUser, setOnlineUser] = useState([])
+    const [sentMessage, setSentMessage] = useState(null) // ? sent Message with Socket
+    const [recieveMessage, setRecieveMessage] = useState(null) //? Recieved Message From Socket
+
+
+    // ? Logged In User
+    const currentUserid = '656566aad4fec0b3ce27c30d'
 
     //  ? Getting Users
     useEffect(() => {
@@ -32,6 +39,7 @@ const Chatbox = ({ currentUserid }) => {
     useEffect(() => {
         const getMessages = async (id) => {
             const { data } = await APIs.getMessage(id)
+            console.log(data)
             setMessages(data)
         }
         getMessages(id)
@@ -39,11 +47,27 @@ const Chatbox = ({ currentUserid }) => {
     //? Connecting Socket To Server
     useEffect(() => {
         socket.current = io('ws://localhost:8080')
-        socket.current.emit('add-user', currentUserid)
+        socket.current.emit('add-users', currentUserid)
         socket.current.on('get-users', (user) => {
             setOnlineUser(user)
         })
     }, [currentUserid])
+    // ? Send Message 
+    useEffect(() => {
+        if (sentMessage !== null) {
+            socket.current.emit('send-message', sentMessage)
+        }
+    }, [sentMessage])
+
+    // ? Recieve Message
+    useEffect(() => {
+        socket.current.on('recive-message', data => {
+            setRecieveMessage(data)
+        })
+    }, [currentUserid])
+
+
+
     //  ? Handling Input field ** This Will Make the Input field Larger ** 
     const handleOnChange = (e) => {
         if (e.length > 0) {
@@ -53,17 +77,30 @@ const Chatbox = ({ currentUserid }) => {
         setText(text);
     };
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = async (e) => {
+        e.preventDefault()
         // Post Logic Gose Here 
+        const message = {
+            senderId: currentUserid,
+            chatId: id,
+            text: text
+        }
+        console.log(message)
 
-    }
-    const handleEnter = (e) => {
-        if (e.key === "Enter") {
+        //? Sent Message to MongoDB
+        try {
+            const { data } = await APIs.addMessage(message)
+            console.log(data)
+            setMessages([...messages, data])
             setText('')
-            return handleFormSubmit()
+
+        } catch (err) {
+            console.log(err)
         }
 
+
     }
+
 
     //console.log(onlineUser)
     return (
@@ -91,7 +128,7 @@ const Chatbox = ({ currentUserid }) => {
                     <main className="mt-4 overflow-y-auto h-100% max-h-96">
                         <div className="w-full">{
                             messages.map(data => <div
-                                className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${messages?.senderId === currentUserid ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
+                                className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${data?.senderId === currentUserid ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
                                 key={data._id}>
                                 <span>
                                     {data?.text}
@@ -133,7 +170,6 @@ const Chatbox = ({ currentUserid }) => {
                             <span className="w-full outline-none duration-300 rounded-3xl items-center justify-center overflow-hidden">
                                 <InputEmoji className="max-w-sm"
                                     value={text}
-                                    onKeyDown={handleEnter}
                                     onChange={handleOnChange}
                                     placeholder="Type a message"
                                 />

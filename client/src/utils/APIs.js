@@ -54,7 +54,10 @@ const getUserAllChats = (id) => API.get(`/chat/${id}`);
 
 const userSingleChat = () => {};
 
-const addMessage = () => {};
+const addMessage = async (message) => {
+  const data = await API.post("/message", message);
+  return data;
+};
 
 const getMessage = (id) => API.get(`/message/${id}`);
 
