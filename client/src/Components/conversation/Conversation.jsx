@@ -19,7 +19,6 @@ const Conversation = ({ data, currentUser }) => {
         getUserData(userId)
 
     }, [])
-    // //console.log(userData)
 
     // 
 

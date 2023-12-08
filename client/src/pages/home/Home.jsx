@@ -9,23 +9,24 @@ const Home = () => {
     const [chatMembers, setChatMembers] = useState([])
     const [loggedInUser, setLoggedInUser] = useState(null)
 
-    const currentUserid = '656566aad4fec0b3ce27c30d'
+    // const currentLoggedInUserId = '6564c99dd373dffed796b2ce' //! Tanvir
+    const currentLoggedInUserId = '656566aad4fec0b3ce27c30d' //! Nishad
 
     useEffect(() => {
-        const getUser = async (currentUserid) => {
-            const { data } = await APIs.getSingleUser(currentUserid)
+        const getUser = async (currentLoggedInUserId) => {
+            const { data } = await APIs.getSingleUser(currentLoggedInUserId)
             setLoggedInUser(data.data)
         }
-        getUser(currentUserid)
+        getUser(currentLoggedInUserId)
 
-        const getUserChats = async (currentUserid) => {
-            const { data } = await APIs.getUserAllChats(currentUserid)
+        const getUserChats = async (currentLoggedInUserId) => {
+            const { data } = await APIs.getUserAllChats(currentLoggedInUserId)
             setChatMembers(data?.data)
         }
-        getUserChats(currentUserid)
-    }, [currentUserid])
+        getUserChats(currentLoggedInUserId)
+    }, [currentLoggedInUserId])
 
-    // //console.log(chat)
+    // console.log(chat)
 
     return (
         <div className="overflow-hidden h-screen flex">
@@ -48,13 +49,13 @@ const Home = () => {
                 <hr />
                 <div className="">
                     {
-                        chatMembers.map(data => <Conversation data={data} key={data._id} currentUser={currentUserid} />)
+                        chatMembers.map(data => <Conversation data={data} key={data._id} currentUser={currentLoggedInUserId} />)
                     }
                 </div>
             </div>
             {/* Right Side */}
             <div className="righ_side md:w-2/3 w-full">
-                {/* <Chatbox currentUserid={currentUserid} /> */}
+                <Chatbox />
             </div>
         </div>
     );

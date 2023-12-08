@@ -1,4 +1,4 @@
-const { User } = require("./user.schema");
+const User = require("./user.schema");
 const {
   createUserToDb,
   getUserFromDb,
@@ -9,20 +9,25 @@ const bcrypt = require("bcryptjs");
 // ? Create User
 async function createUser(req, res) {
   const user = req.body;
+  const { email } = user;
   try {
-    const data = await getUserFromDb(user.email);
-    if (data) {
-      return res.status(403).json({ error: "User Already Exists" });
+    const existingUser = await User.find({ email });
+    console.log(existingUser, "existing User");
+    if (existingUser.length) {
+      return res.status(403).json({
+        success: false,
+        message: "User Already Exists",
+      });
     }
     const result = await createUserToDb(user);
-
+    console.log(result);
     res.status(200).json({
       success: true,
       message: "User Created Successfully",
       data: result,
     });
   } catch (err) {
-    //console.log(err);
+    console.log(err);
   }
 }
 // ? Get All Users

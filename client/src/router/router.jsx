@@ -4,6 +4,7 @@ import Signup from '../pages/signup/Signup';
 import Login from '../pages/login/Login';
 import Home from '../pages/home/Home';
 import Chatbox from '../Components/ChatBox/Chatbox';
+import Users from '../pages/users/Users';
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,9 @@ const router = createBrowserRouter([
             }, {
                 path: "/login",
                 element: <Login />
+            }, {
+                path: "/users",
+                element: <Users />
             },
             {
                 path: "chat/:id",

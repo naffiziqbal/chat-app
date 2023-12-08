@@ -25,5 +25,13 @@ async function getMessages(req, res) {
     //console.log(err);
   }
 }
+async function deleteMessage(req, res) {
+  try {
+    const result = await MessageModal.deleteMany({ chatId });
+    res.status(200).json(result);
+  } catch (err) {
+    //console.log(err);
+  }
+}
 
-module.exports = { addMessage, getMessages };
+module.exports = { addMessage, getMessages,deleteMessage };

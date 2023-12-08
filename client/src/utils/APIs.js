@@ -39,15 +39,8 @@ const loginUser = async ({ email, password }) => {
     //console.log(err);
   }
 };
-const signUpUser = async ({ name, email, password }) => {
-  const response = await axios.post(`${localUrl}/user/create-user`, {
-    name,
-    email,
-    password,
-  });
-  return response;
-};
 
+const signUpUser = (user) => API.post("/user/create-user", user);
 const createChat = () => {};
 
 const getUserAllChats = (id) => API.get(`/chat/${id}`);

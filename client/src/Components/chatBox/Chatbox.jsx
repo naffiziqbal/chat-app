@@ -13,6 +13,7 @@ import { io } from "socket.io-client"
 
 const Chatbox = () => {
     const { id } = useParams()
+    console.log(id, "Chat Id")
     const socket = useRef()
     const [user, setUser] = useState([]) //? Getting chat user from database
     const [isTyping, setIsTyping] = useState(false);
@@ -24,7 +25,8 @@ const Chatbox = () => {
 
 
     // ? Logged In User
-    const currentUserid = '656566aad4fec0b3ce27c30d'
+    // const currentLoggedInUserId = '6564c99dd373dffed796b2ce' //! Tanvir
+    const currentLoggedInUserId = '656566aad4fec0b3ce27c30d' //! Nishad
 
     //  ? Getting Users
     useEffect(() => {
@@ -47,11 +49,11 @@ const Chatbox = () => {
     //? Connecting Socket To Server
     useEffect(() => {
         socket.current = io('ws://localhost:8080')
-        socket.current.emit('add-users', currentUserid)
+        socket.current.emit('add-users', currentLoggedInUserId)
         socket.current.on('get-users', (user) => {
             setOnlineUser(user)
         })
-    }, [currentUserid])
+    }, [currentLoggedInUserId])
     // ? Send Message 
     useEffect(() => {
         if (sentMessage !== null) {
@@ -64,7 +66,7 @@ const Chatbox = () => {
         socket.current.on('recive-message', data => {
             setRecieveMessage(data)
         })
-    }, [currentUserid])
+    }, [currentLoggedInUserId])
 
 
 
@@ -81,9 +83,9 @@ const Chatbox = () => {
         e.preventDefault()
         // Post Logic Gose Here 
         const message = {
-            senderId: currentUserid,
+            senderId: currentLoggedInUserId,
             chatId: id,
-            text: text
+            text
         }
         console.log(message)
 
@@ -128,7 +130,7 @@ const Chatbox = () => {
                     <main className="mt-4 overflow-y-auto h-100% max-h-96">
                         <div className="w-full">{
                             messages.map(data => <div
-                                className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${data?.senderId === currentUserid ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
+                                className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${data?.senderId === currentLoggedInUserId ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
                                 key={data._id}>
                                 <span>
                                     {data?.text}
