@@ -41,7 +41,9 @@ const loginUser = async ({ email, password }) => {
 };
 
 const signUpUser = (user) => API.post("/user/create-user", user);
-const createChat = () => {};
+
+const createChat = ({ senderId, reciverId }) =>
+  API.post("/chat", { senderId, reciverId });
 
 const getUserAllChats = (id) => API.get(`/chat/${id}`);
 
