@@ -8,6 +8,16 @@ async function createChat(req, res) {
     members: [req.body.senderId, req.body.reciverId],
   });
   try {
+    const exixtingChat = await ChatModel.find({
+      members: { $all: [req.body.senderId, req.body.reciverId] },
+    });
+    // console.log(exixtingChat.length);
+    if (exixtingChat.length) {
+      res.status(403).json({
+        success: false,
+      });
+      return;
+    }
     const result = await newChat.save();
     res.status(200).json({
       success: true,

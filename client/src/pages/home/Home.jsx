@@ -1,33 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import Chatbox from "../../Components/ChatBox/Chatbox";
-import { APIs } from "../../utils/APIs";
 import avatar from "../../assets/icons8-male-user-50.png";
 import Conversation from "../../Components/conversation/Conversation";
+import { UserContext } from "../../context/UserContext";
 
 
 const Home = () => {
-    const [chatMembers, setChatMembers] = useState([])
-    const [loggedInUser, setLoggedInUser] = useState(null)
-
-    // const currentLoggedInUserId = '6564c99dd373dffed796b2ce' //! Tanvir
-    const currentLoggedInUserId = '656566aad4fec0b3ce27c30d' //! Nishad
-
-    useEffect(() => {
-        const getUser = async (currentLoggedInUserId) => {
-            const { data } = await APIs.getSingleUser(currentLoggedInUserId)
-            setLoggedInUser(data.data)
-        }
-        getUser(currentLoggedInUserId)
-
-        const getUserChats = async (currentLoggedInUserId) => {
-            const { data } = await APIs.getUserAllChats(currentLoggedInUserId)
-            setChatMembers(data?.data)
-        }
-        getUserChats(currentLoggedInUserId)
-    }, [currentLoggedInUserId])
-
-    // console.log(chat)
-
+    const { loading, currentUser, chatMembers } = useContext(UserContext)
+    if (loading) {
+        return <div>Loading ....</div>
+    }
     return (
         <div className="overflow-hidden h-screen flex">
             {/* Left Side Viee */}
@@ -39,7 +21,7 @@ const Home = () => {
                             <figure>
                                 <img src={avatar} alt="" />
                             </figure>
-                            <p className="text-start mx-3 lg:block hidden">{loggedInUser?.name}</p>
+                            <p className="text-start mx-3 lg:block hidden">{currentUser?.name}</p>
                         </span>
                         <span className="font-bold text-3xl p-2">
                             Chats
@@ -49,7 +31,7 @@ const Home = () => {
                 <hr />
                 <div className="">
                     {
-                        chatMembers.map(data => <Conversation data={data} key={data._id} currentUser={currentLoggedInUserId} />)
+                        chatMembers.map(data => <Conversation data={data} key={data._id} currentUser={currentUser?._id} />)
                     }
                 </div>
             </div>

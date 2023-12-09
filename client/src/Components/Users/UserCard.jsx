@@ -4,13 +4,22 @@ import Button from '../Buttons/Button'
 import { APIs } from '../../utils/APIs'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
-/* eslint-disable react/prop-types */
+import { useContext, useEffect, useState } from 'react'
+import { UserContext } from '../../context/UserContext'
+import useUserChatsArray from '../../hooks/useUserChatsArray'
+/* eslint-disable */
 const UserCard = ({ data }) => {
     const navigate = useNavigate()
-    let id = 'afdfdfdf'
+    const { loading, setLoading, currentUser } = useContext(UserContext)
+    // console.log(currentUser)
+    // const { _id } = currentUser
+    const chatMember = useUserChatsArray()
+
     const { profileImg, name, _id } = data
+
+    
     const chatUser = {
-        senderId: id,
+        senderId: currentUser?._id,
         reciverId: _id
     }
     const { senderId, reciverId } = chatUser
@@ -29,11 +38,11 @@ const UserCard = ({ data }) => {
         } catch (error) {
             Swal.fire({
                 title: "Failed",
-                text: "Something Went Wrong",
+                text: "Chat Already Exists",
                 icon: "error"
             })
         }
-        console.log(data)
+        // console.log(data)
     }
 
     return (

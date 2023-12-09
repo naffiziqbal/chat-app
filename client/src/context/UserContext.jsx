@@ -1,23 +1,23 @@
+/* eslint-disable */
 import { createContext, useEffect, useState } from "react";
 import { APIs } from "../utils/APIs";
 
 export const UserContext = createContext()
 
 const ContextProvider = ({ children }) => {
+    const [chatMembers, setChatMembers] = useState([])
     const [currentUser, setCurrentUser] = useState(null)
     const [loading, setLoading] = useState(false)
 
 
     const id = localStorage.getItem('loggedInUser')
-    console.log(id)
 
     useEffect(() => {
         const getCurrentUser = async (id) => {
             try {
                 setLoading(true)
-                const { data } = APIs.getSingleUser(id)
+                const { data } = await APIs.getSingleUser(id)
                 setCurrentUser(data?.data)
-                console.log(data)
                 setLoading(false)
             } catch (error) {
                 console.log(error)
@@ -26,7 +26,15 @@ const ContextProvider = ({ children }) => {
         getCurrentUser(id)
     }, [id])
 
-    const data = { loading, setLoading, currentUser, setCurrentUser }
+    useEffect(() => {
+        const getUserChats = async (id) => {
+            const { data } = await APIs.getUserAllChats(id)
+            setChatMembers(data?.data)
+        }
+        getUserChats(currentUser?._id)
+    }, [currentUser?._id])
+
+    const data = { loading, setLoading, currentUser, setCurrentUser, chatMembers }
 
     return <UserContext.Provider value={data}>{children}</UserContext.Provider>
 

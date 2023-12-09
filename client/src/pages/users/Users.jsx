@@ -17,7 +17,6 @@ const Users = () => {
         }
         getUsers()
     }, [])
-    console.log(users)
     return (
         <div className="min-h-screen h-screen p-12">
             <h3>Select User To Chat</h3>
