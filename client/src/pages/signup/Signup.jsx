@@ -17,6 +17,8 @@ const Signup = () => {
             const { data } = await APIs.signUpUser(user)
             console.log(data)
             if (data?.success) {
+                localStorage.setItem('loggedInUser', data?.data?._id)
+                console.log(data?.data?._id)
                 Swal.fire({
                     title: data.message,
                     showClass: {
