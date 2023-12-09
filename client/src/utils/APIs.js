@@ -27,18 +27,8 @@ const getSingleUser = async (id) => {
     //console.log(err);
   }
 };
-const loginUser = async ({ email, password }) => {
-  try {
-    const response = await axios.post(`${localUrl}/user/login`, {
-      email,
-      password,
-    });
-    //console.log(response, "APIs");
-    return response;
-  } catch (err) {
-    //console.log(err);
-  }
-};
+const loginUser = async ({ email, password }) =>
+  API.post(`/user/login`, { email, password });
 
 const signUpUser = (user) => API.post("/user/create-user", user);
 

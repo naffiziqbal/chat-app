@@ -61,18 +61,20 @@ async function getUser(req, res) {
 async function userLogin(req, res) {
   try {
     const { email, password } = req.body;
-    //console.log(email, password, "db");
-    const data = await getUserFromDb(email);
-    //console.log(data, "returned data");
+
+    const [data] = await User.find({ email });
+
     if (!data) {
-      //console.log("No Data");
       return res.status(401).json({ error: "No Data" });
     }
-    const matchedPassword = await bcrypt.compare(password, data.password);
+    const matchedPassword = await bcrypt.compare(password, data?.password);
+    console.log(matchedPassword);
     if (!matchedPassword) {
       return res.status(401).json({ error: "Invalid Creadintials" });
     }
+    // const [data] = existingUser;
     res.status(200).json({
+      success: true,
       message: "Logged In",
       data: data,
     });
