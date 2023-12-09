@@ -19,12 +19,6 @@ const router = createBrowserRouter([
                 </ProtectedRoutes>
             },
             {
-                path: '/signup',
-                element: <Signup />
-            }, {
-                path: "/login",
-                element: <Login />
-            }, {
                 path: "/users",
                 element: <ProtectedRoutes>
                     <Users />
@@ -35,9 +29,18 @@ const router = createBrowserRouter([
                 element: <ProtectedRoutes>
                     <Chatbox />
                 </ProtectedRoutes>
-            }
+            },
+            {
+                path: '/signup',
+                element: <Signup />
+            },
+            {
+                path: "/login",
+                element: <Login />
+            },
         ]
-    }
+    },
+
 
 ])
 

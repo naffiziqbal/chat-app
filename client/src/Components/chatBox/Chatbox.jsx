@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useRef, useState } from "react";
 import { HiOutlineDotsVertical, HiPhone, HiVideoCamera } from "react-icons/hi";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { LuSticker } from "react-icons/lu";
 import { AiOutlineGif } from "react-icons/ai";
 import { FaArrowLeft, FaImage } from "react-icons/fa6";
@@ -27,7 +27,7 @@ const Chatbox = () => {
     // ? Logged In User
 
     const { currentUser } = useContext(UserContext)
-    // console.log(currentUser?._id)
+    console.log(currentUser?.name)
 
     //  ? Getting Users
     useEffect(() => {
@@ -189,7 +189,7 @@ const Chatbox = () => {
             }
             {
                 !user && <div className="bg-secondary h-screen flex items-center justify-center">
-                    <p className="md:text-2xl ">Please Select a Chat to Get Started</p>
+                    <p className="md:text-2xl ">Please Select a Chat to Get Started or <Link to={'/users'}><small className="underline text-accent">Find Friends.</small></Link> </p>
                 </div>
             }
 

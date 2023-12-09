@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { APIs } from "../../utils/APIs";
 import { FaChessKing } from "react-icons/fa6";
+import useUserChatsArray from "../../hooks/useUserChatsArray";
 
 const Conversation = ({ data, currentUser }) => {
     const [userData, setUserData] = useState(null)
+    const chatMember = useUserChatsArray()
 
     // ? Get User
     useEffect(() => {
@@ -18,7 +20,7 @@ const Conversation = ({ data, currentUser }) => {
         }
         getUserData(userId)
 
-    }, [])
+    }, [chatMember._id])
 
     // 
 

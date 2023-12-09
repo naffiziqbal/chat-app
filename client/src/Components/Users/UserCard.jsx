@@ -13,7 +13,6 @@ const UserCard = ({ data }) => {
     const { loading, setLoading, currentUser } = useContext(UserContext)
     // console.log(currentUser)
     // const { _id } = currentUser
-    const chatMember = useUserChatsArray()
 
     const { profileImg, name, _id } = data
 
