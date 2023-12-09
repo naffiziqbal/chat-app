@@ -8,7 +8,7 @@ import { UserContext } from "../../context/UserContext";
 const Home = () => {
     const { loading, currentUser, chatMembers } = useContext(UserContext)
     if (loading) {
-        return <div>Loading ....</div>
+        return <div className="h-screen">Loading ....</div>
     }
     return (
         <div className="overflow-hidden h-screen flex">

@@ -5,6 +5,7 @@ import Login from '../pages/login/Login';
 import Home from '../pages/home/Home';
 import Chatbox from '../Components/ChatBox/Chatbox';
 import Users from '../pages/users/Users';
+import ProtectedRoutes from './protectedRoutes/ProtectedRoutes';
 
 const router = createBrowserRouter([
     {
@@ -13,7 +14,9 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Home />
+                element: <ProtectedRoutes>
+                    <Home />
+                </ProtectedRoutes>
             },
             {
                 path: '/signup',
@@ -23,11 +26,15 @@ const router = createBrowserRouter([
                 element: <Login />
             }, {
                 path: "/users",
-                element: <Users />
+                element: <ProtectedRoutes>
+                    <Users />
+                </ProtectedRoutes>
             },
             {
                 path: "chat/:id",
-                element: <Chatbox />
+                element: <ProtectedRoutes>
+                    <Chatbox />
+                </ProtectedRoutes>
             }
         ]
     }

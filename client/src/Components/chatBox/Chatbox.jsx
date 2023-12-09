@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { HiOutlineDotsVertical, HiPhone, HiVideoCamera } from "react-icons/hi";
 import { useParams } from "react-router-dom";
 import { LuSticker } from "react-icons/lu";
@@ -10,10 +10,10 @@ import InputEmoji from "react-input-emoji"
 import { APIs } from "../../utils/APIs";
 import { format } from "timeago.js";
 import { io } from "socket.io-client"
+import { UserContext } from "../../context/UserContext";
 
 const Chatbox = () => {
     const { id } = useParams()
-    console.log(id, "Chat Id")
     const socket = useRef()
     const [user, setUser] = useState([]) //? Getting chat user from database
     const [isTyping, setIsTyping] = useState(false);
@@ -25,8 +25,9 @@ const Chatbox = () => {
 
 
     // ? Logged In User
-    // const currentLoggedInUserId = '6564c99dd373dffed796b2ce' //! Tanvir
-    const currentLoggedInUserId = '656566aad4fec0b3ce27c30d' //! Nishad
+
+    const { currentUser } = useContext(UserContext)
+    // console.log(currentUser?._id)
 
     //  ? Getting Users
     useEffect(() => {
@@ -49,11 +50,11 @@ const Chatbox = () => {
     //? Connecting Socket To Server
     useEffect(() => {
         socket.current = io('ws://localhost:8080')
-        socket.current.emit('add-users', currentLoggedInUserId)
+        socket.current.emit('add-users', currentUser?._id)
         socket.current.on('get-users', (user) => {
             setOnlineUser(user)
         })
-    }, [currentLoggedInUserId])
+    }, [currentUser?._id])
     // ? Send Message 
     useEffect(() => {
         if (sentMessage !== null) {
@@ -66,7 +67,7 @@ const Chatbox = () => {
         socket.current.on('recive-message', data => {
             setRecieveMessage(data)
         })
-    }, [currentLoggedInUserId])
+    }, [currentUser?._id])
 
 
 
@@ -83,7 +84,7 @@ const Chatbox = () => {
         e.preventDefault()
         // Post Logic Gose Here 
         const message = {
-            senderId: currentLoggedInUserId,
+            senderId: currentUser?._id,
             chatId: id,
             text
         }
@@ -130,7 +131,7 @@ const Chatbox = () => {
                     <main className="mt-4 overflow-y-auto h-100% max-h-96">
                         <div className="w-full">{
                             messages.map(data => <div
-                                className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${data?.senderId === currentLoggedInUserId ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
+                                className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${data?.senderId === currentUser?._id ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
                                 key={data._id}>
                                 <span>
                                     {data?.text}
