@@ -20,7 +20,7 @@ const Conversation = ({ data, currentUser }) => {
         }
         getUserData(userId)
 
-    }, [chatMember._id])
+    }, [chatMember?._id])
 
     // 
 

@@ -11,7 +11,7 @@ const Home = () => {
         return <div className="h-screen">Loading ....</div>
     }
     return (
-        <div className="overflow-hidden h-screen flex">
+        <div className="overflow-hidden flex h-full">
             {/* Left Side Viee */}
             <div className="left_side md:w-1/3 w-full">
                 <header className="">

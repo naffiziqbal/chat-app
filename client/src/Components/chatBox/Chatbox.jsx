@@ -11,6 +11,7 @@ import { APIs } from "../../utils/APIs";
 import { format } from "timeago.js";
 import { io } from "socket.io-client"
 import { UserContext } from "../../context/UserContext";
+import useUserChatsArray from "../../hooks/useUserChatsArray";
 
 const Chatbox = () => {
     const { id } = useParams()
@@ -20,8 +21,11 @@ const Chatbox = () => {
     const [text, setText] = useState('') //? inputed message
     const [onlineUser, setOnlineUser] = useState([])
     const [sentMessage, setSentMessage] = useState(null)
-    const [senderMessages, setSenderMessages] = useState([]) //? Getting Messages from DB
+    const [messages, setMessages] = useState([]) //? Getting Messages from DB
     const [recievreMessage, setRecieverMessage] = useState([])
+
+    const chatMember = useUserChatsArray()
+    console.log(chatMember)
 
 
     // ? Logged In User
@@ -40,23 +44,21 @@ const Chatbox = () => {
 
     // ? Caling the Messages From the Database
     useEffect(() => {
-        const getSenderMessages = async (chatId) => {
+        const getMessages = async (chatId) => {
             const { data } = await APIs.getMessage(chatId)
             console.log(data)
-            setSenderMessages(data)
+            setMessages(data)
         }
-        getSenderMessages(id)
-    }, [id])
+        getMessages(chatMember?._id)
+    }, [chatMember?._id])
     // ? Caling the Messages From the Database
-
-    useEffect(() => {
-        const getRecieverMessages = async (recieverId) => {
-            const { data } = await APIs.getMessage(recieverId)
-            console.log(data)
-            setRecieverMessage(data)
-        }
-        getRecieverMessages(currentUser?._id)
-    }, [currentUser._id])
+    // useEffect(() => {
+    //     const getRecieverMessages = async (recieverId) => {
+    //         const { data } = await APIs.getMessage(recieverId)
+    //         setMessages(data)
+    //     }
+    //     getRecieverMessages(currentUser?._id)
+    // }, [currentUser._id])
     //? Connecting Socket To Server
     useEffect(() => {
         socket.current = io('ws://localhost:8080')
@@ -95,7 +97,7 @@ const Chatbox = () => {
         // Post Logic Gose Here 
         const message = {
             senderId: currentUser?._id,
-            chatId: id,
+            chatId: chatMember?._id,
             text
         }
         console.log(message)
@@ -104,7 +106,7 @@ const Chatbox = () => {
         try {
             const { data } = await APIs.addMessage(message)
             console.log(data)
-            setSenderMessages([...senderMessages, data])
+            setMessages([...messages, data])
             setText('')
 
         } catch (err) {
@@ -113,12 +115,10 @@ const Chatbox = () => {
 
 
     }
-    // console.log(messages)
 
-    //console.log(onlineUser)
+    console.log(messages)
     return (
-        <div className={` h-screen relative`}>
-
+        <div className={`h-screen overflow-hidden relative`}>
 
             {user && <>
                 <header className="shadow-inner bg-secondary text-text font-bold tracking-wide" >
@@ -137,11 +137,11 @@ const Chatbox = () => {
                         </div>
                     </div>
                 </header>
-                <div>
-                    <main className="mt-4 overflow-y-auto h-100% max-h-96">
+                <div className="overflow-auto h-screen max-h-[85%]">
+                    <main className="mt-4 z-50">
                         {/* Sender Message */}
-                        <div className="w-full">{
-                            senderMessages.map(data => <div
+                        <div className="w-full ">{
+                            messages.map(data => <div
                                 className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${data?.senderId === currentUser?._id ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
                                 key={data._id}>
                                 <span>
@@ -152,63 +152,51 @@ const Chatbox = () => {
                                 </span>
                             </div>)
                         }</div>
-                        {/* Reciver Message */}
-                        <div>
-                            {
-                                recievreMessage.map(data => <div
-                                    className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${data?.senderId === currentUser?._id ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
-                                    key={data._id}>
-                                    <span>
-                                        {data?.text}
-                                    </span>
-                                    <span>
-                                        {format(data.createdAt)}
-                                    </span> </div>)}
-                        </div>
                     </main>
+
+                    <footer className="absolute bottom-3 right-0 w-full justify-between z-10">
+                        <form onSubmit={handleFormSubmit} className=" flex flex-row items-center ">
+                            <span className=" cursor-pointer "
+                                onClick={() => setIsTyping(!isTyping)}
+                            >
+                                {
+                                    <FaArrowLeft
+                                        style={{
+                                            width: '1.2rem',
+                                            height: "1.2rem",
+                                            rotate: isTyping ? "180deg" : '0deg',
+                                            transition: ".3s ease"
+                                        }}
+                                    />
+                                }
+
+                            </span>
+
+
+                            <div className={`flex justify-around ${isTyping ? "w-0" : "w-1/4"} duration-300 `}>
+                                <LuSticker />
+                                <AiOutlineGif />
+                                <FaImage />
+                            </div>
+
+                            <div className="w-full flex  items-center justify-end">
+                                <span className="w-full outline-none duration-300 rounded-3xl items-center justify-center overflow-hidden">
+                                    <InputEmoji className="max-w-sm"
+                                        value={text}
+                                        onChange={handleOnChange}
+                                        placeholder="Type a message"
+                                    />
+                                </span>
+                                <button type="submit"
+                                    className="bg-blue-500 text-accent p-2 rounded max-h-10 items-center mx-3"
+                                >{<IoSend />}</button>
+                            </div>
+
+
+                        </form>
+                    </footer>
                 </div>
 
-                <footer className="">
-                    <form onSubmit={handleFormSubmit} className=" flex flex-row absolute bottom-3 right-0 w-full items-center justify-between">
-                        <span className=" cursor-pointer "
-                            onClick={() => setIsTyping(!isTyping)}
-                        >
-                            {
-                                <FaArrowLeft
-                                    style={{
-                                        width: '1.2rem',
-                                        height: "1.2rem",
-                                        rotate: isTyping ? "180deg" : '0deg',
-                                        transition: ".3s ease"
-                                    }}
-                                />
-                            }
-
-                        </span>
-
-
-                        <div className={`flex justify-around ${isTyping ? "w-0" : "w-1/4"} duration-300 `}>
-                            <LuSticker />
-                            <AiOutlineGif />
-                            <FaImage />
-                        </div>
-
-                        <div className="w-full flex  items-center justify-end">
-                            <span className="w-full outline-none duration-300 rounded-3xl items-center justify-center overflow-hidden">
-                                <InputEmoji className="max-w-sm"
-                                    value={text}
-                                    onChange={handleOnChange}
-                                    placeholder="Type a message"
-                                />
-                            </span>
-                            <button type="submit"
-                                className="bg-blue-500 text-accent p-2 rounded max-h-10 items-center mx-3"
-                            >{<IoSend />}</button>
-                        </div>
-
-
-                    </form>
-                </footer>
             </>
             }
             {

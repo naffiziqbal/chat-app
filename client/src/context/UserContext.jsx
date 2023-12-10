@@ -25,7 +25,7 @@ const ContextProvider = ({ children }) => {
     }, [id])
 
     useEffect(() => {
-        const getUserChats = async (id) => {
+        const getUserChats = async () => {
             try {
                 const { data } = await APIs.getUserAllChats(id)
                 console.log(data)
@@ -34,7 +34,7 @@ const ContextProvider = ({ children }) => {
                 console.log(error)
             }
         }
-        getUserChats(id)
+        getUserChats()
     }, [id])
 
     const data = { loading, setLoading, currentUser, setCurrentUser, chatMembers }
