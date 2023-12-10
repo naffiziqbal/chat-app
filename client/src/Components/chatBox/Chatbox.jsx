@@ -12,6 +12,7 @@ import { format } from "timeago.js";
 import { io } from "socket.io-client"
 import { UserContext } from "../../context/UserContext";
 import useUserChatsArray from "../../hooks/useUserChatsArray";
+import './Chatbox.css'
 
 const Chatbox = () => {
     const { id } = useParams()
@@ -23,6 +24,7 @@ const Chatbox = () => {
     const [sentMessage, setSentMessage] = useState(null)
     const [messages, setMessages] = useState([]) //? Getting Messages from DB
     const [recievreMessage, setRecieverMessage] = useState([])
+    const [showTime, setShowTime] = useState(false)
 
     const chatMember = useUserChatsArray()
     console.log(chatMember)
@@ -137,17 +139,18 @@ const Chatbox = () => {
                         </div>
                     </div>
                 </header>
-                <div className="overflow-auto h-screen max-h-[85%]">
-                    <main className="mt-4 z-50">
+                <div className="overflow-auto h-screen max-h-[85%] chatbox">
+                    <main>
                         {/* Sender Message */}
-                        <div className="w-full ">{
+                        <div className="w-full px-2">{
                             messages.map(data => <div
-                                className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${data?.senderId === currentUser?._id ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
+                                className={` duration-500 flex flex-col w-fit my-2 min-h-fit overflow-hidden break-words rounded-lg px-2 ${data?.senderId === currentUser?._id ? "text-white bg-accent chat-own" : 'bg-secondary'}`}
                                 key={data._id}>
+
                                 <span>
                                     {data?.text}
                                 </span>
-                                <span>
+                                <span className="text-end opacity-70">
                                     {format(data.createdAt)}
                                 </span>
                             </div>)
