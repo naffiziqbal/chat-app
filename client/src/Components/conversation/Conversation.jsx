@@ -35,7 +35,7 @@ const Conversation = ({ data, currentUser }) => {
                             <figure>
                                 <img src={userData?.img} alt="" />
                             </figure>
-                            <p className="mx-4 font-semibold md:block ">{userData?.name}</p>
+                            <p className="mx-4 font-semibold">{userData?.name}</p>
                         </div>
                     </NavLink>
                 </li>

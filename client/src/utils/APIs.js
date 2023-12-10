@@ -44,7 +44,8 @@ const addMessage = async (message) => {
   return data;
 };
 
-const getMessage = (id) => API.get(`/message/${id}`);
+const getMessage = (chatId) =>
+  API.get(`/message/${chatId}`);
 
 export const APIs = {
   getAllUser,

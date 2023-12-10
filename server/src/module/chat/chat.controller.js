@@ -28,18 +28,18 @@ async function createChat(req, res) {
   }
 }
 
-async function getUserChats(req, res) {
-  try {
-    const { userId } = req.params;
-    const userChat = await getUserChatsFromDb(userId);
-    res.status(200).json({
-      success: true,
-      data: userChat,
-    });
-  } catch (error) {
-    //console.log(error);
-  }
-}
+// async function getUserChats(req, res) {
+//   try {
+//     const { userId } = req.params;
+//     const userChat = await getUserChatsFromDb(userId);
+//     res.status(200).json({
+//       success: true,
+//       data: userChat,
+//     });
+//   } catch (error) {
+//     //console.log(error);
+//   }
+// }
 
 async function findChat(req, res) {
   try {
@@ -49,6 +49,17 @@ async function findChat(req, res) {
     res.status(200).json(chat);
   } catch (error) {
     //console.log(error);
+  }
+}
+
+async function getUserChats(req, res) {
+  try {
+    const chat = await ChatModel.find({
+      members: { $in: [req.params.userId] },
+    });
+    res.status(200).json(chat);
+  } catch (error) {
+    res.status(500).json(error);
   }
 }
 module.exports = { createChat, getUserChats, findChat };

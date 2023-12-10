@@ -17,9 +17,11 @@ async function addMessage(req, res) {
 
 async function getMessages(req, res) {
   const { chatId } = req.params;
+  console.log(chatId);
 
   try {
     const result = await MessageModal.find({ chatId });
+    console.log(result);
     res.status(200).json(result);
   } catch (err) {
     //console.log(err);
@@ -34,4 +36,4 @@ async function deleteMessage(req, res) {
   }
 }
 
-module.exports = { addMessage, getMessages,deleteMessage };
+module.exports = { addMessage, getMessages, deleteMessage };

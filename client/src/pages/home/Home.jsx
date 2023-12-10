@@ -21,7 +21,7 @@ const Home = () => {
                             <figure>
                                 <img src={avatar} alt="" />
                             </figure>
-                            <p className="text-start mx-3 lg:block hidden">{currentUser?.name}</p>
+                            <p className="text-start mx-3">{currentUser?.name}</p>
                         </span>
                         <span className="font-bold text-3xl p-2">
                             Chats

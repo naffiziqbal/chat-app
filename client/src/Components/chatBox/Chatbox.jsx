@@ -18,10 +18,10 @@ const Chatbox = () => {
     const [user, setUser] = useState([]) //? Getting chat user from database
     const [isTyping, setIsTyping] = useState(false);
     const [text, setText] = useState('') //? inputed message
-    const [messages, setMessages] = useState([]) //? Getting Messages from DB
     const [onlineUser, setOnlineUser] = useState([])
-    const [sentMessage, setSentMessage] = useState(null) // ? sent Message with Socket
-    const [recieveMessage, setRecieveMessage] = useState(null) //? Recieved Message From Socket
+    const [sentMessage, setSentMessage] = useState(null)
+    const [senderMessages, setSenderMessages] = useState([]) //? Getting Messages from DB
+    const [recievreMessage, setRecieverMessage] = useState([])
 
 
     // ? Logged In User
@@ -40,13 +40,23 @@ const Chatbox = () => {
 
     // ? Caling the Messages From the Database
     useEffect(() => {
-        const getMessages = async (id) => {
-            const { data } = await APIs.getMessage(id)
+        const getSenderMessages = async (chatId) => {
+            const { data } = await APIs.getMessage(chatId)
             console.log(data)
-            setMessages(data)
+            setSenderMessages(data)
         }
-        getMessages(id)
+        getSenderMessages(id)
     }, [id])
+    // ? Caling the Messages From the Database
+
+    useEffect(() => {
+        const getRecieverMessages = async (recieverId) => {
+            const { data } = await APIs.getMessage(recieverId)
+            console.log(data)
+            setRecieverMessage(data)
+        }
+        getRecieverMessages(currentUser?._id)
+    }, [currentUser._id])
     //? Connecting Socket To Server
     useEffect(() => {
         socket.current = io('ws://localhost:8080')
@@ -65,7 +75,7 @@ const Chatbox = () => {
     // ? Recieve Message
     useEffect(() => {
         socket.current.on('recive-message', data => {
-            setRecieveMessage(data)
+            // setRecieveMessage(data)
         })
     }, [currentUser?._id])
 
@@ -94,7 +104,7 @@ const Chatbox = () => {
         try {
             const { data } = await APIs.addMessage(message)
             console.log(data)
-            setMessages([...messages, data])
+            setSenderMessages([...senderMessages, data])
             setText('')
 
         } catch (err) {
@@ -103,7 +113,7 @@ const Chatbox = () => {
 
 
     }
-
+    // console.log(messages)
 
     //console.log(onlineUser)
     return (
@@ -129,8 +139,9 @@ const Chatbox = () => {
                 </header>
                 <div>
                     <main className="mt-4 overflow-y-auto h-100% max-h-96">
+                        {/* Sender Message */}
                         <div className="w-full">{
-                            messages.map(data => <div
+                            senderMessages.map(data => <div
                                 className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${data?.senderId === currentUser?._id ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
                                 key={data._id}>
                                 <span>
@@ -141,6 +152,19 @@ const Chatbox = () => {
                                 </span>
                             </div>)
                         }</div>
+                        {/* Reciver Message */}
+                        <div>
+                            {
+                                recievreMessage.map(data => <div
+                                    className={` flex-col max-w-md my-2 h-12 rounded-lg flex items-end justify-end px-2  ${data?.senderId === currentUser?._id ? "text-white bg-accent" : ' justify-end flex border rounded-lg'}`}
+                                    key={data._id}>
+                                    <span>
+                                        {data?.text}
+                                    </span>
+                                    <span>
+                                        {format(data.createdAt)}
+                                    </span> </div>)}
+                        </div>
                     </main>
                 </div>
 

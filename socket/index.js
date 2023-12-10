@@ -15,13 +15,13 @@ io.on("connection", (socket) => {
         socketId: socket.id,
       });
     }
-    console.log(activeChat);
+    // console.log(activeChat);
     io.emit("get-users", activeChat);
   });
   socket.on("disconnect", () => {
     activeChat = activeChat?.filter((user) => user.id !== socket.id);
-    console.log("User Disconnected", activeChat);
+    // console.log("User Disconnected", activeChat);
     io.emit("get-users", activeChat);
   });
 });
-console.log(activeChat);
+// console.log(activeChat);

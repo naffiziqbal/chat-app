@@ -1,8 +1,6 @@
 /* eslint-disable */
 import { createContext, useEffect, useState } from "react";
 import { APIs } from "../utils/APIs";
-import useUserChatsArray from "../hooks/useUserChatsArray";
-
 export const UserContext = createContext()
 
 const ContextProvider = ({ children }) => {
@@ -30,13 +28,14 @@ const ContextProvider = ({ children }) => {
         const getUserChats = async (id) => {
             try {
                 const { data } = await APIs.getUserAllChats(id)
-                setChatMembers(data?.data)
+                console.log(data)
+                setChatMembers(data)
             } catch (error) {
                 console.log(error)
             }
         }
-        getUserChats(currentUser?._id)
-    }, [currentUser?._id])
+        getUserChats(id)
+    }, [id])
 
     const data = { loading, setLoading, currentUser, setCurrentUser, chatMembers }
 
