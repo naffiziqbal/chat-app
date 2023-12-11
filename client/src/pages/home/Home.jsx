@@ -6,14 +6,15 @@ import Chatbox from "../../Components/chatBox/Chatbox";
 
 
 const Home = () => {
+    const userlocation = location.pathname === '/'
     const { loading, currentUser, chatMembers } = useContext(UserContext)
     if (loading) {
         return <div className="h-screen">Loading ....</div>
     }
     return (
-        <div className="overflow-hidden flex h-full">
-            {/* Left Side Viee */}
-            <div className="left_side md:w-1/3 w-full">
+        <div className="overflow-hidden flex ">
+            {/* Left Side View */}
+            <div className={`${userlocation ? "left_side md:w-1/3 w-full h-screen" : "hidden"}`}>
                 <header className="">
                     {/* Heading */}
                     <div className="flex flex-row flex-nowrap justify-between items-center p-4">
@@ -35,9 +36,10 @@ const Home = () => {
                     }
                 </div>
             </div>
+
             {/* Right Side */}
-            <div className="righ_side md:w-2/3 w-full">
-                <Chatbox/>
+            <div className="righ_side w-full">
+                <Chatbox />
             </div>
         </div>
     );

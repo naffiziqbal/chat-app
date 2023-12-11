@@ -1,10 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import Header from '../Components/header/Header';
 
 const MainLayout = () => {
     return (
         <div className='max-w-[1440px] mx-auto bg-background'>
-            <Header />
             <Outlet />
         </div>
     );
