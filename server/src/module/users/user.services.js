@@ -1,6 +1,6 @@
 const User = require("./user.schema");
 
-// ? Create User To DB
+//  Create User To DB
 async function createUserToDb(user) {
   try {
     const result = await User.create(user);
@@ -10,7 +10,7 @@ async function createUserToDb(user) {
   }
 }
 
-// ? Get Signle User From Db
+//  Get Signle User From Db
 
 async function getUserFromDb(id) {
   //console.log(id);
@@ -23,7 +23,7 @@ async function getUserFromDb(id) {
   }
 }
 
-// ? Get All Users From DB
+//  Get All Users From DB
 async function getUsersFromDb() {
   const result = await User.find({});
   return result;

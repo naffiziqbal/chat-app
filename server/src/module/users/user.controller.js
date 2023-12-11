@@ -6,7 +6,7 @@ const {
 } = require("./user.services");
 const bcrypt = require("bcryptjs");
 
-// ? Create User
+//  Create User
 async function createUser(req, res) {
   const user = req.body;
   const { email } = user;
@@ -30,7 +30,7 @@ async function createUser(req, res) {
     console.log(err);
   }
 }
-// ? Get All Users
+//   Get All Users
 async function getUsers(req, res) {
   const result = await getUsersFromDb();
   try {
@@ -43,7 +43,7 @@ async function getUsers(req, res) {
   }
 }
 
-// ? Get Single User
+//  Get Single User
 async function getUser(req, res) {
   const { id } = req.params;
   //console.log(id);

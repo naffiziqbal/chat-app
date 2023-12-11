@@ -8,20 +8,19 @@ import useUserChatsArray from "../../hooks/useUserChatsArray";
 
 const Conversation = ({ data, currentUser }) => {
     const [userData, setUserData] = useState(null)
-    const chatMember = useUserChatsArray()
+    // const chatMember = useUserChatsArray()
 
-    // ? Get User
+    //  Get User
     useEffect(() => {
-        //? Find User
-        const userId = data.members.find(id => id !== currentUser)
+        // Find User
+        const userId = data?.members?.find(id => id !== currentUser)
         const getUserData = async (userId) => {
             const { data } = await APIs.getSingleUser(userId)
             setUserData(data?.data)
         }
         getUserData(userId)
 
-    }, [chatMember?._id])
-
+    }, [])
     // 
 
     return (

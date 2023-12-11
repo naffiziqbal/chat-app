@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useRef, useState } from "react";
 import { HiOutlineDotsVertical, HiPhone, HiVideoCamera } from "react-icons/hi";
@@ -11,81 +12,50 @@ import { APIs } from "../../utils/APIs";
 import { format } from "timeago.js";
 import { io } from "socket.io-client"
 import { UserContext } from "../../context/UserContext";
-import useUserChatsArray from "../../hooks/useUserChatsArray";
 import './Chatbox.css'
+import useUserChatsArray from "../../hooks/useUserChatsArray";
 
 const Chatbox = () => {
     const { id } = useParams()
-    const socket = useRef()
-    const [user, setUser] = useState([]) //? Getting chat user from database
+    console.log(id)
+    const loggedInUser = localStorage.getItem('loggedInUser')
+    console.log(loggedInUser)
+    const [user, setUser] = useState([]) // Getting chat user from database
     const [isTyping, setIsTyping] = useState(false);
-    const [text, setText] = useState('') //? inputed message
-    const [onlineUser, setOnlineUser] = useState([])
-    const [sentMessage, setSentMessage] = useState(null)
-    const [messages, setMessages] = useState([]) //? Getting Messages from DB
-    const [recievreMessage, setRecieverMessage] = useState([])
-    const [showTime, setShowTime] = useState(false)
-
-    const chatMember = useUserChatsArray()
-    console.log(chatMember)
-
-
-    // ? Logged In User
-
+    const [text, setText] = useState('') // inputed message
+    const [messages, setMessages] = useState([]) // Getting Messages from DB
+    const [chatMember, setChatMember] = useState(null)
+    const { chatMembers } = useContext(UserContext)
+    //  Logged In User
     const { currentUser } = useContext(UserContext)
-    console.log(currentUser?.name)
-
-    //  ? Getting Users
     useEffect(() => {
-        const getUser = async (id) => {
+        const getUser = async () => {
             const { data } = await APIs.getSingleUser(id)
             setUser(data?.data)
         }
-        getUser(id)
+        getUser()
     }, [id])
-
-    // ? Caling the Messages From the Database
+    useEffect(() => {
+        const findChat = async () => {
+            try {
+                const { data } = await APIs.userSingleChat(loggedInUser, id)
+                setChatMember(data)
+            } catch (err) { console.log(err) }
+        }
+        findChat()
+    }, [id, loggedInUser])
+    //  Caling the Messages From the Database
     useEffect(() => {
         const getMessages = async (chatId) => {
             const { data } = await APIs.getMessage(chatId)
-            console.log(data)
+            // console.log(data)
             setMessages(data)
         }
         getMessages(chatMember?._id)
     }, [chatMember?._id])
-    // ? Caling the Messages From the Database
-    // useEffect(() => {
-    //     const getRecieverMessages = async (recieverId) => {
-    //         const { data } = await APIs.getMessage(recieverId)
-    //         setMessages(data)
-    //     }
-    //     getRecieverMessages(currentUser?._id)
-    // }, [currentUser._id])
-    //? Connecting Socket To Server
-    useEffect(() => {
-        socket.current = io('ws://localhost:8080')
-        socket.current.emit('add-users', currentUser?._id)
-        socket.current.on('get-users', (user) => {
-            setOnlineUser(user)
-        })
-    }, [currentUser?._id])
-    // ? Send Message 
-    useEffect(() => {
-        if (sentMessage !== null) {
-            socket.current.emit('send-message', sentMessage)
-        }
-    }, [sentMessage])
+    // console.log(chatMember)
 
-    // ? Recieve Message
-    useEffect(() => {
-        socket.current.on('recive-message', data => {
-            // setRecieveMessage(data)
-        })
-    }, [currentUser?._id])
-
-
-
-    //  ? Handling Input field ** This Will Make the Input field Larger ** 
+    //   Handling Input field ** This Will Make the Input field Larger ** 
     const handleOnChange = (e) => {
         if (e.length > 0) {
             setIsTyping(true)
@@ -102,9 +72,9 @@ const Chatbox = () => {
             chatId: chatMember?._id,
             text
         }
-        console.log(message)
+        if (message.text === '') return alert('Type Message')
 
-        //? Sent Message to MongoDB
+        // Sent Message to MongoDB
         try {
             const { data } = await APIs.addMessage(message)
             console.log(data)
@@ -118,7 +88,7 @@ const Chatbox = () => {
 
     }
 
-    console.log(messages)
+    // console.log(messages)
     return (
         <div className={`h-screen overflow-hidden relative`}>
 
@@ -157,7 +127,7 @@ const Chatbox = () => {
                         }</div>
                     </main>
 
-                    <footer className="absolute bottom-3 right-0 w-full justify-between z-10">
+                    <footer className="absolute bottom-3 right-0 w-full justify-between z-10 bg-secondary">
                         <form onSubmit={handleFormSubmit} className=" flex flex-row items-center ">
                             <span className=" cursor-pointer "
                                 onClick={() => setIsTyping(!isTyping)}
@@ -183,7 +153,7 @@ const Chatbox = () => {
                             </div>
 
                             <div className="w-full flex  items-center justify-end">
-                                <span className="w-full outline-none duration-300 rounded-3xl items-center justify-center overflow-hidden">
+                                <span className="w-full outline-none duration-300 rounded-3xl items-center justify-center">
                                     <InputEmoji className="max-w-sm"
                                         value={text}
                                         onChange={handleOnChange}
@@ -194,8 +164,6 @@ const Chatbox = () => {
                                     className="bg-blue-500 text-accent p-2 rounded max-h-10 items-center mx-3"
                                 >{<IoSend />}</button>
                             </div>
-
-
                         </form>
                     </footer>
                 </div>

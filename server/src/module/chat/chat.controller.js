@@ -1,9 +1,9 @@
 const ChatModel = require("./chat.schema");
 const { getUserChatsFromDb } = require("./chat.services");
 
-// ? Create New Chat
+// Create New Chat
 async function createChat(req, res) {
-  //? Make New ChatModel Instance
+  // Make New ChatModel Instance
   const newChat = new ChatModel({
     members: [req.body.senderId, req.body.reciverId],
   });

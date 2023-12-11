@@ -37,15 +37,15 @@ const createChat = ({ senderId, reciverId }) =>
 
 const getUserAllChats = (id) => API.get(`/chat/${id}`);
 
-const userSingleChat = () => {};
+const userSingleChat = (senderId, reciverId) =>
+  API.get(`/chat/${senderId}/${reciverId}`);
 
 const addMessage = async (message) => {
   const data = await API.post("/message", message);
   return data;
 };
 
-const getMessage = (chatId) =>
-  API.get(`/message/${chatId}`);
+const getMessage = (chatId) => API.get(`/message/${chatId}`);
 
 export const APIs = {
   getAllUser,

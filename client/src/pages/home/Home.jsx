@@ -1,15 +1,17 @@
-import { useContext } from "react";
-import Chatbox from "../../Components/ChatBox/Chatbox";
+import { useContext, useState } from "react";
 import avatar from "../../assets/icons8-male-user-50.png";
 import Conversation from "../../Components/conversation/Conversation";
 import { UserContext } from "../../context/UserContext";
+import Chatbox from "../../Components/chatBox/Chatbox";
 
 
 const Home = () => {
     const { loading, currentUser, chatMembers } = useContext(UserContext)
+    // const [chatMember, setChatMember] = useState([])
     if (loading) {
         return <div className="h-screen">Loading ....</div>
     }
+    console.log(chatMembers)
     return (
         <div className="overflow-hidden flex h-full">
             {/* Left Side Viee */}
@@ -31,13 +33,13 @@ const Home = () => {
                 <hr />
                 <div className="">
                     {
-                        chatMembers.map(data => <Conversation data={data} key={data._id} currentUser={currentUser?._id} />)
+                        chatMembers?.map(data => <Conversation data={data} key={data._id} currentUser={currentUser?._id} />)
                     }
                 </div>
             </div>
             {/* Right Side */}
             <div className="righ_side md:w-2/3 w-full">
-                <Chatbox />
+                <Chatbox/>
             </div>
         </div>
     );

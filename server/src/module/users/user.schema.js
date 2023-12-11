@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
   password: String,
 });
 
-//? Hash User Password with Bcryptjs and mongoose middleware
+// Hash User Password with Bcryptjs and mongoose middleware
 UserSchema.pre("save", async function (next) {
   try {
     const salt = await bcrypt.genSalt(10);
