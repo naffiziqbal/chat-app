@@ -1,10 +1,12 @@
 import { APIs } from '../../utils/APIs';
 import Swal from 'sweetalert2'
 import './Signup.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+    const location = useLocation()
     const navigate = useNavigate()
+    const from = location?.state?.from?.pathname || "/"
     const handleSubmit = async (e) => {
         e.preventDefault()
         const form = e.target;

@@ -4,8 +4,9 @@ import './Login.css'
 import { Link, Navigate, redirect, useLocation, useNavigate } from 'react-router-dom';
 const Login = () => {
     const location = useLocation()
-    const from = location.state?.from?.pathname || "/"
     const navigate = useNavigate()
+    const from = location?.state?.from?.pathname || "/"
+
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         const form = e.target;
@@ -13,7 +14,6 @@ const Login = () => {
         const password = form.password.value
         try {
             const { data } = await APIs.loginUser({ email, password })
-            console.log(data)
             if (data?.success) {
                 localStorage.setItem('loggedInUser', data?.data?._id)
                 Swal.fire({
@@ -22,7 +22,7 @@ const Login = () => {
                     icon: "success"
                 })
                 console.log(location)
-                navigate('/')
+                navigate(from)
             }
 
         } catch (error) {
@@ -35,8 +35,6 @@ const Login = () => {
         }
     }
 
-
-    console.log("s")
     return (
         <div className="min-h-screen relative bg-primary">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:w-1/2 w-96 h-auto bg-background shadow-2xl p-5 rounded-md">

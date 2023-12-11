@@ -4,22 +4,10 @@ const localUrl = `http://localhost:5000/api/v1`;
 
 const API = axios.create({ baseURL: localUrl });
 
-// const getSingleUser = (email) => {
-//   axios.get(`${localUrl}/user/get-user`).then((res) => res);
-// };
 
-// const getAllUser = async () => {
-//   try {
-//     const response = await axios.get(`${localUrl}/user/all-users`);
-//     return response.data;
-//   } catch (err) {
-//     //console.log(err);
-//   }
-// };
 const getAllUser = () => API.get("/user/all-users");
 
 const getSingleUser = async (id) => {
-  //console.log(id);
   try {
     const response = await axios.get(`${localUrl}/user/${id}`);
     return response;

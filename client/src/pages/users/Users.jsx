@@ -12,7 +12,6 @@ const Users = () => {
         const getUsers = async () => {
             try {
                 let { data } = await APIs.getAllUser()
-                console.log(data)
                 data = data?.data?.filter(data => data?._id !== currentUser._id)
                 setUsers(data)
             } catch (error) {

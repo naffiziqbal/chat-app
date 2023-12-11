@@ -10,6 +10,7 @@ const ContextProvider = ({ children }) => {
 
     const id = localStorage.getItem('loggedInUser')
 
+    // Get Logged In User information
     useEffect(() => {
         const getCurrentUser = async (id) => {
             try {
@@ -24,6 +25,7 @@ const ContextProvider = ({ children }) => {
         getCurrentUser(id)
     }, [id])
 
+    // Get Chat list of Logged in User
     useEffect(() => {
         const getUserChats = async (id) => {
             try {

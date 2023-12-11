@@ -20,6 +20,7 @@ const UserCard = ({ data }) => {
     }
     const { senderId, reciverId } = chatUser
 
+    // Connect with friends || create a new chat
     const handleCreateChat = async () => {
         try {
             const { data } = await APIs.createChat({ senderId, reciverId })
@@ -38,7 +39,6 @@ const UserCard = ({ data }) => {
                 icon: "error"
             })
         }
-        // console.log(data)
     }
 
     return (

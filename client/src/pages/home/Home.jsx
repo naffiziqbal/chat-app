@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import avatar from "../../assets/icons8-male-user-50.png";
 import Conversation from "../../Components/conversation/Conversation";
 import { UserContext } from "../../context/UserContext";
@@ -7,11 +7,9 @@ import Chatbox from "../../Components/chatBox/Chatbox";
 
 const Home = () => {
     const { loading, currentUser, chatMembers } = useContext(UserContext)
-    // const [chatMember, setChatMember] = useState([])
     if (loading) {
         return <div className="h-screen">Loading ....</div>
     }
-    console.log(chatMembers)
     return (
         <div className="overflow-hidden flex h-full">
             {/* Left Side Viee */}

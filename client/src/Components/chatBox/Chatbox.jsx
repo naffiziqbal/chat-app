@@ -13,21 +13,19 @@ import { format } from "timeago.js";
 import { io } from "socket.io-client"
 import { UserContext } from "../../context/UserContext";
 import './Chatbox.css'
-import useUserChatsArray from "../../hooks/useUserChatsArray";
 
 const Chatbox = () => {
     const { id } = useParams()
-    console.log(id)
     const loggedInUser = localStorage.getItem('loggedInUser')
-    console.log(loggedInUser)
     const [user, setUser] = useState([]) // Getting chat user from database
     const [isTyping, setIsTyping] = useState(false);
     const [text, setText] = useState('') // inputed message
     const [messages, setMessages] = useState([]) // Getting Messages from DB
     const [chatMember, setChatMember] = useState(null)
-    const { chatMembers } = useContext(UserContext)
     //  Logged In User
     const { currentUser } = useContext(UserContext)
+
+    // Get User To Chat.....  ** Header Information **
     useEffect(() => {
         const getUser = async () => {
             const { data } = await APIs.getSingleUser(id)
@@ -35,6 +33,7 @@ const Chatbox = () => {
         }
         getUser()
     }, [id])
+    //  Find Specific Chat For Users
     useEffect(() => {
         const findChat = async () => {
             try {
@@ -48,12 +47,10 @@ const Chatbox = () => {
     useEffect(() => {
         const getMessages = async (chatId) => {
             const { data } = await APIs.getMessage(chatId)
-            // console.log(data)
             setMessages(data)
         }
         getMessages(chatMember?._id)
     }, [chatMember?._id])
-    // console.log(chatMember)
 
     //   Handling Input field ** This Will Make the Input field Larger ** 
     const handleOnChange = (e) => {
@@ -64,12 +61,13 @@ const Chatbox = () => {
         setText(text);
     };
 
+    // Post Message to Databse
     const handleFormSubmit = async (e) => {
         e.preventDefault()
         // Post Logic Gose Here 
         const message = {
             senderId: currentUser?._id,
-            chatId: chatMember?._id,
+            chatId: chatMember?._id, // Specific Chat Id of Both User
             text
         }
         if (message.text === '') return alert('Type Message')
@@ -77,18 +75,14 @@ const Chatbox = () => {
         // Sent Message to MongoDB
         try {
             const { data } = await APIs.addMessage(message)
-            console.log(data)
             setMessages([...messages, data])
             setText('')
 
         } catch (err) {
             console.log(err)
         }
-
-
     }
 
-    // console.log(messages)
     return (
         <div className={`h-screen overflow-hidden relative`}>
 

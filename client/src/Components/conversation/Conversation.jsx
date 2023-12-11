@@ -3,20 +3,20 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { APIs } from "../../utils/APIs";
-import { FaChessKing } from "react-icons/fa6";
-import useUserChatsArray from "../../hooks/useUserChatsArray";
 
 const Conversation = ({ data, currentUser }) => {
     const [userData, setUserData] = useState(null)
-    // const chatMember = useUserChatsArray()
-
     //  Get User
     useEffect(() => {
         // Find User
         const userId = data?.members?.find(id => id !== currentUser)
         const getUserData = async (userId) => {
-            const { data } = await APIs.getSingleUser(userId)
-            setUserData(data?.data)
+            try {
+                const { data } = await APIs.getSingleUser(userId)
+                setUserData(data?.data)
+            } catch (err) {
+                console.log(err)
+            }
         }
         getUserData(userId)
 
