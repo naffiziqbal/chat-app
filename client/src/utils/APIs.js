@@ -1,9 +1,10 @@
 import axios from "axios";
 
-const localUrl = `http://localhost:5000/api/v1`;
+const localUrl = import.meta.env.VITE_APP_localUrl;
+const deployedUrl = import.meta.env.VITE_APP_deployedUrl;
+console.log(deployedUrl);
 
-const API = axios.create({ baseURL: localUrl });
-
+const API = axios.create({ baseURL: deployedUrl });
 
 const getAllUser = () => API.get("/user/all-users");
 
