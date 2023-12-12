@@ -84,8 +84,7 @@ const Chatbox = () => {
     }
 
     return (
-        <div className={`h-screen overflow-hidden relative`}>
-
+        <div className={`overflow-hidden relative h-screen`}>
             {user && <>
                 <header className="shadow-inner bg-secondary text-text font-bold tracking-wide" >
                     <div className="flex flex-row flex-nowrap justify-between items-center p-4">
@@ -103,8 +102,8 @@ const Chatbox = () => {
                         </div>
                     </div>
                 </header>
-                <div className="overflow-auto h-screen max-h-[85%] chatbox">
-                    <main>
+                <div className="overflow-auto h-full bg-background  chatbox">
+                    <main className="chat-body">
                         {/* Sender Message */}
                         <div className="w-full px-2">{
                             messages.map(data => <div
@@ -121,7 +120,7 @@ const Chatbox = () => {
                         }</div>
                     </main>
 
-                    <footer className="absolute bottom-3 right-0 w-full justify-between z-10 bg-secondary">
+                    <footer className="w-full justify-between z-10 bg-secondary">
                         <form onSubmit={handleFormSubmit} className=" flex flex-row items-center ">
                             <span className=" cursor-pointer "
                                 onClick={() => setIsTyping(!isTyping)}

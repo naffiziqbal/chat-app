@@ -2,20 +2,13 @@ import axios from "axios";
 
 const localUrl = import.meta.env.VITE_APP_localUrl;
 const deployedUrl = import.meta.env.VITE_APP_deployedUrl;
-console.log(deployedUrl);
 
 const API = axios.create({ baseURL: deployedUrl });
 
 const getAllUser = () => API.get("/user/all-users");
 
-const getSingleUser = async (id) => {
-  try {
-    const response = await axios.get(`${localUrl}/user/${id}`);
-    return response;
-  } catch (err) {
-    //console.log(err);
-  }
-};
+const getSingleUser = (id) => API.get(`/user/${id}`);
+
 const loginUser = async ({ email, password }) =>
   API.post(`/user/login`, { email, password });
 

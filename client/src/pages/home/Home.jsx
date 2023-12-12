@@ -12,9 +12,9 @@ const Home = () => {
         return <div className="h-screen">Loading ....</div>
     }
     return (
-        <div className="overflow-hidden flex ">
+        <div className="overflow-hidden h-screen flex ">
             {/* Left Side View */}
-            <div className={`${userlocation ? "left_side md:w-1/3 w-full h-screen" : "hidden"}`}>
+            <div className={`${userlocation ? "left_side md:w-1/3 w-full" : "hidden"}`}>
                 <header className="">
                     {/* Heading */}
                     <div className="flex flex-row flex-nowrap justify-between items-center p-4">
