@@ -8,6 +8,9 @@ const main = async () => {
     await mongoose.connect(
       `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_USERPASS}@cluster1.zscbcon.mongodb.net/chat-app?retryWrites=true&w=majority`
     );
+    app.get("/", (req, res) => {
+      res.send("Payra Has been sent");
+    });
 
     app.listen(port, () => {
       console.log(`Your server is running under the port ${port}`);
@@ -16,6 +19,5 @@ const main = async () => {
     console.log(err);
   }
 };
-
 
 main().catch((err) => console.log(err));
