@@ -16,14 +16,19 @@ import './Chatbox.css'
 
 const Chatbox = () => {
     const { id } = useParams()
+    const socket = useRef()
     const loggedInUser = localStorage.getItem('loggedInUser')
     const [user, setUser] = useState([]) // Getting chat user from database
     const [isTyping, setIsTyping] = useState(false);
     const [text, setText] = useState('') // inputed message
     const [messages, setMessages] = useState([]) // Getting Messages from DB
     const [chatMember, setChatMember] = useState(null)
+    const [onlineUsers, setOnlineUsers] = useState([])
+    const [sentSocketMessage, setSentSocketMesssage] = useState(null)
+    const [recievedSocketMessage, setrecievedSocketMesssage] = useState(null)
     //  Logged In User
     const { currentUser } = useContext(UserContext)
+
 
     // Get User To Chat.....  ** Header Information **
     useEffect(() => {
@@ -60,6 +65,39 @@ const Chatbox = () => {
         const text = e;
         setText(text);
     };
+    // *** Socket Integration ***
+    useEffect(() => {
+        socket.current = io('http://localhost:8000')
+        socket.current.emit('add-users', currentUser?._id)
+        socket.current.on('get-users', (users) => {
+            // console.log(users)
+            setOnlineUsers(users)
+        })
+    }, [currentUser])
+
+    // *** send Message to socket
+    useEffect(() => {
+        if (sentSocketMessage !== null) {
+            socket.current.emit('send-message', sentSocketMessage)
+        }
+    }, [sentSocketMessage])
+
+    // *** recieve Message 
+    useEffect(() => {
+        socket.current.on('recieve-message', (data) => {
+            console.log(data, "Recieved Data")
+            setrecievedSocketMesssage(data)
+        })
+
+    })
+
+    useEffect(() => {
+        console.log(recievedSocketMessage)
+        if (recievedSocketMessage !== null) {
+            console.log(recievedSocketMessage)
+            setMessages([...messages, recievedSocketMessage])
+        }
+    }, [messages, recievedSocketMessage])
 
     // Post Message to Databse
     const handleFormSubmit = async (e) => {
@@ -81,6 +119,11 @@ const Chatbox = () => {
         } catch (err) {
             console.log(err)
         }
+
+        // *** send message to socket
+        const recieverId = chatMember?.members?.find(data => data?._id !== currentUser?._id)
+        console.log(recieverId)
+        setSentSocketMesssage({ text, recieverId })
     }
 
     return (
@@ -107,10 +150,10 @@ const Chatbox = () => {
                         {/* Sender Message */}
                         <div className="w-full px-2">{
                             messages.map(data => <div
-                                className={` duration-500 flex flex-col w-fit my-2 min-h-fit overflow-hidden break-words rounded-lg px-2 ${data?.senderId === currentUser?._id ? "text-white bg-accent chat-own" : 'bg-secondary'}`}
+                                className={`w-fit duration-500 flex flex-col  my-2   break-words rounded-lg px-2 ${data?.senderId === currentUser?._id ? "text-white bg-accent chat-own" : 'bg-secondary'}`}
                                 key={data._id}>
 
-                                <span>
+                                <span className="max-w-lg">
                                     {data?.text}
                                 </span>
                                 <span className="text-end opacity-70">
